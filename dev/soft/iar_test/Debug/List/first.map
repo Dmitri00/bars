@@ -1,0 +1,372 @@
+###############################################################################
+#
+# IAR ELF Linker V3.10.1.201 for STM8                     29/Sep/2018  21:56:00
+# Copyright 2010-2017 IAR Systems AB.
+#
+#    Output file  =  C:\Users\Vova\bars\dev\soft\iar_test\Debug\Exe\first.out
+#    Map file     =  C:\Users\Vova\bars\dev\soft\iar_test\Debug\List\first.map
+#    Command line =  
+#        -f C:\Users\Vova\AppData\Local\Temp\EW7EE5.tmp
+#        (C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\board_flash.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\delay.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\main.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_adc.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_aes.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_beep.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_clk.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_comp.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_dac.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_dma.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_exti.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_flash.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_gpio.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_i2c.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_irtim.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_it.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_itc.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_iwdg.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_lcd.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_pwr.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_rst.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_rtc.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_spi.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_syscfg.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_tim1.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_tim2.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_tim3.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_tim4.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_tim5.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_usart.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_wfe.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l15x_wwdg.o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj\stm8l_discovery_lcd.o
+#        --redirect _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb -o
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\Exe\first.out --map
+#        C:\Users\Vova\bars\dev\soft\iar_test\Debug\List\first.map --config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.0\stm8\config\lnkstm8l152c6.icf" --config_def _CSTACK_SIZE=0x100
+#        --config_def _HEAP_SIZE=0x100 --entry __iar_program_start --debug_lib)
+#
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+__SystemLibrary            = DLib
+__code_model               = small
+__core                     = stm8
+__data_model               = medium
+__dlib_file_descriptor     = 0
+__dlib_full_locale_support = 0
+__rt_version               = 4
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A0":  place at start of [0x000000-0x0000ff] { rw section .vregs };
+"A1":  place at end of [0x000000-0x0007ff] { block CSTACK };
+"P2":  place in [from 0x000000 to 0x0007ff] {
+          block HEAP, rw section __DLIB_PERTHREAD, rw section .far.bss,
+          rw section .far.data, rw section .far.noinit,
+          rw section .far_func.textrw, rw section .huge.bss,
+          rw section .huge.data, rw section .huge.noinit,
+          rw section .huge_func.textrw, rw section .iar.dynexit,
+          rw section .near.bss, rw section .near.data, rw section .near.noinit,
+          rw section .near_func.textrw };
+"A2":  place at start of [0x008000-0x00ffff] { block INTVEC };
+"P3":  place in [from 0x008000 to 0x00ffff] {
+          ro section __DLIB_PERTHREAD_init, ro section .far.data_init,
+          ro section .far_func.textrw_init, ro section .huge.data_init,
+          ro section .huge_func.textrw_init, ro section .iar.init_table,
+          ro section .init_array, ro section .near.data_init,
+          ro section .near.rodata, ro section .near_func.text,
+          ro section .near_func.textrw_init, ro section .tiny.data_init,
+          ro section .tiny.rodata_init };
+"P4":  place in [from 0x008000 to 0x00ffff] {
+          ro section .far.rodata, ro section .far_func.text };
+"P5":  place in [from 0x008000 to 0x00ffff] {
+          ro section .huge.rodata, ro section .huge_func.text };
+do not initialize {
+   rw section .eeprom.noinit, rw section .far.noinit, rw section .huge.noinit,
+   rw section .near.noinit, rw section .tiny.noinit, rw section .vregs };
+initialize by copy {
+   rw section .far.bss, rw section .far.data, rw section .far_func.textrw,
+   rw section .huge.bss, rw section .huge.data, rw section .huge_func.textrw,
+   rw section .iar.dynexit, rw section .near.bss, rw section .near.data,
+   rw section .near_func.textrw, rw section .tiny.bss, rw section .tiny.data,
+   ro section .tiny.rodata };
+
+  Section              Kind      Address   Size  Object
+  -------              ----      -------   ----  ------
+"A0":                                      0x10
+  .vregs               uninit   0x000000   0x10  vregs.o [4]
+                              - 0x000010   0x10
+
+"P2", part 1 of 2:                         0xae
+  P2-1                          0x000010   0xae  <Init block>
+    .near_func.textrw  inited   0x000010   0xae  stm8l15x_flash.o [1]
+                              - 0x0000be   0xae
+
+"P2", part 2 of 2:                         0x85
+  .near.bss            zero     0x0000be   0x80  main.o [1]
+  .near.bss            zero     0x00013e    0x3  main.o [1]
+  .near.bss            zero     0x000141    0x2  stm8l_discovery_lcd.o [1]
+                              - 0x000143   0x85
+
+"A1":                                     0x100
+  CSTACK                        0x000700  0x100  <Block>
+    CSTACK             uninit   0x000700  0x100  <Block tail>
+                              - 0x000800  0x100
+
+"A2":                                      0x80
+  INTVEC                        0x008000   0x80  <Block>
+    .intvec            const    0x008000   0x80  interrupt.o [4]
+                              - 0x008080   0x80
+
+"P3-P5":                                  0xba7
+  .near_func.text      ro code  0x008080  0x3e8  stm8l_discovery_lcd.o [1]
+  .near_func.text      ro code  0x008468   0xe1  stm8l_discovery_lcd.o [1]
+  Initializer bytes    const    0x008549   0xae  <for P2-1>
+  .near_func.text      ro code  0x0085f7   0x99  long.o [4]
+  .near_func.text      ro code  0x008690   0x8e  stm8l15x_gpio.o [1]
+  .near_func.text      ro code  0x00871e   0x89  stm8l15x_clk.o [1]
+  .near_func.text      ro code  0x0087a7   0x87  stm8l15x_lcd.o [1]
+  .near_func.text      ro code  0x00882e   0x83  main.o [1]
+  .near_func.text      ro code  0x0088b1   0x71  vreg_util.o [4]
+  .near_func.text      ro code  0x008922   0x56  stm8l_discovery_lcd.o [1]
+  .near_func.text      ro code  0x008978   0x46  board_flash.o [1]
+  .near.rodata         const    0x0089be   0x34  stm8l_discovery_lcd.o [1]
+  .near_func.text      ro code  0x0089f2   0x2f  stm8l_discovery_lcd.o [1]
+  .near_func.text      ro code  0x008a21   0x28  init_small.o [4]
+  .near_func.text      ro code  0x008a49   0x27  stm8l_discovery_lcd.o [1]
+  .near_func.text      ro code  0x008a70   0x21  stm8l15x_exti.o [1]
+  .near_func.text      ro code  0x008a91   0x21  stm8l15x_it.o [1]
+  .iar.init_table      const    0x008ab2   0x12  - Linker created -
+  .near_func.text      ro code  0x008ac4   0x1e  init_small.o [4]
+  .near_func.text      ro code  0x008ae2   0x19  stm8l15x_flash.o [1]
+  .near_func.text      ro code  0x008afb   0x18  stm8l15x_flash.o [1]
+  .near.rodata         const    0x008b13   0x14  stm8l_discovery_lcd.o [1]
+  .near_func.text      ro code  0x008b27   0x14  init.o [4]
+  .near_func.text      ro code  0x008b3b   0x14  __dbg_xxexit.o [3]
+  .near_func.text      ro code  0x008b4f   0x13  stm8l15x_lcd.o [1]
+  .near_func.text      ro code  0x008b62   0x13  stm8l15x_lcd.o [1]
+  .near_func.text      ro code  0x008b75   0x13  stm8l15x_lcd.o [1]
+  .near_func.text      ro code  0x008b88   0x13  cstartup.o [4]
+  .near_func.text      ro code  0x008b9b   0x10  stm8l_discovery_lcd.o [1]
+  .near_func.text      ro code  0x008bab   0x10  short.o [4]
+  .near_func.text      ro code  0x008bbb    0xf  stm8l15x_flash.o [1]
+  .near_func.text      ro code  0x008bca    0xd  stm8l15x_lcd.o [1]
+  .near_func.text      ro code  0x008bd7    0xd  move.o [4]
+  .near_func.text      ro code  0x008be4    0xc  stm8l15x_lcd.o [1]
+  .near_func.text      ro code  0x008bf0    0xa  stm8l15x_clk.o [1]
+  .near_func.text      ro code  0x008bfa    0x7  stm8l15x_gpio.o [1]
+  .near.rodata         const    0x008c01    0x6  main.o [1]
+  .near_func.text      ro code  0x008c07    0x6  char.o [4]
+  .near_func.text      ro code  0x008c0d    0x5  cexit.o [4]
+  .near_func.text      ro code  0x008c12    0x4  stm8l15x_clk.o [1]
+  .near_func.text      ro code  0x008c16    0x4  stm8l15x_flash.o [1]
+  .near_func.text      ro code  0x008c1a    0x3  interrupt.o [4]
+  .near_func.text      ro code  0x008c1d    0x3  low_level_init.o [4]
+  .near_func.text      ro code  0x008c20    0x3  exit.o [4]
+  .near_func.text      ro code  0x008c23    0x3  unhandled_exception.o [4]
+  .near_func.text      ro code  0x008c26    0x1  __dbg_break.o [3]
+                              - 0x008c27  0xba7
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address   Size
+          -------   ----
+Zero (__iar_zero_init2)
+    1 destination range, total size 0x85:
+          0x0000be  0x85
+
+Copy (__iar_copy_init2)
+    1 source range, total size 0xae:
+          0x008549  0xae
+    1 destination range, total size 0xae:
+          0x000010  0xae
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module                 ro code  rw code  ro data  rw data
+    ------                 -------  -------  -------  -------
+C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj: [1]
+    board_flash.o               70
+    main.o                     131                 6      131
+    stm8l15x_clk.o             151
+    stm8l15x_exti.o             33
+    stm8l15x_flash.o            68      174      174
+    stm8l15x_gpio.o            149
+    stm8l15x_it.o               33
+    stm8l15x_lcd.o             217
+    stm8l_discovery_lcd.o    1 413                72        2
+    ---------------------------------------------------------
+    Total:                   2 265      174      252      133
+
+command line: [2]
+    ---------------------------------------------------------
+    Total:
+
+dbgstm8smd.a: [3]
+    __dbg_break.o                1
+    __dbg_xxexit.o              20
+    ---------------------------------------------------------
+    Total:                      21
+
+dlstm8smn.a: [4]
+    cexit.o                      5
+    char.o                       6
+    cstartup.o                  19
+    exit.o                       3
+    init.o                      20
+    init_small.o                70
+    interrupt.o                  3               128
+    long.o                     153
+    low_level_init.o             3
+    move.o                      13
+    short.o                     16
+    unhandled_exception.o        3
+    vreg_util.o                113
+    vregs.o                                                16
+    ---------------------------------------------------------
+    Total:                     427               128       16
+
+    Linker created                                18      256
+-------------------------------------------------------------
+    Grand Total:             2 713      174      398      405
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                    Address   Size  Type      Object
+-----                    -------   ----  ----      ------
+.iar.init_table$$Base   0x008ab2          --   Gb  - Linker created -
+.iar.init_table$$Limit  0x008ac4          --   Gb  - Linker created -
+?add32_l0_l0_0x         0x0085fa         Code  Gb  long.o [4]
+?add32_l0_l0_l1         0x0085f7         Code  Gb  long.o [4]
+?b0                     0x000000         Data  Gb  vregs.o [4]
+?b1                     0x000001         Data  Gb  vregs.o [4]
+?b10                    0x00000a         Data  Gb  vregs.o [4]
+?b11                    0x00000b         Data  Gb  vregs.o [4]
+?b12                    0x00000c         Data  Gb  vregs.o [4]
+?b13                    0x00000d         Data  Gb  vregs.o [4]
+?b14                    0x00000e         Data  Gb  vregs.o [4]
+?b15                    0x00000f         Data  Gb  vregs.o [4]
+?b2                     0x000002         Data  Gb  vregs.o [4]
+?b3                     0x000003         Data  Gb  vregs.o [4]
+?b4                     0x000004         Data  Gb  vregs.o [4]
+?b5                     0x000005         Data  Gb  vregs.o [4]
+?b6                     0x000006         Data  Gb  vregs.o [4]
+?b7                     0x000007         Data  Gb  vregs.o [4]
+?b8                     0x000008         Data  Gb  vregs.o [4]
+?b9                     0x000009         Data  Gb  vregs.o [4]
+?e0                     0x000001         Data  Gb  vregs.o [4]
+?e1                     0x000005         Data  Gb  vregs.o [4]
+?e2                     0x000009         Data  Gb  vregs.o [4]
+?e3                     0x00000d         Data  Gb  vregs.o [4]
+?epilogue_l2            0x00891e         Code  Gb  vreg_util.o [4]
+?l0                     0x000000         Data  Gb  vregs.o [4]
+?l1                     0x000004         Data  Gb  vregs.o [4]
+?l2                     0x000008         Data  Gb  vregs.o [4]
+?l3                     0x00000c         Data  Gb  vregs.o [4]
+?move1616_v_x_y_a       0x008bd7         Code  Gb  move.o [4]
+?mul32_l0_l0_l1         0x008612         Code  Gb  long.o [4]
+?pop_l0                 0x0088f5         Code  Gb  vreg_util.o [4]
+?pop_l1                 0x008900         Code  Gb  vreg_util.o [4]
+?pop_l2                 0x00890b         Code  Gb  vreg_util.o [4]
+?push_l0                0x0088c9         Code  Gb  vreg_util.o [4]
+?push_l1                0x0088ce         Code  Gb  vreg_util.o [4]
+?push_l2                0x0088d3         Code  Gb  vreg_util.o [4]
+?push_w4                0x0088b1         Code  Gb  vreg_util.o [4]
+?sll16_x_x_a            0x008bab         Code  Gb  short.o [4]
+?sll8_a_a_5             0x008c08         Code  Gb  char.o [4]
+?sll8_a_a_6             0x008c07         Code  Gb  char.o [4]
+?srl16_x_x_a            0x008bb3         Code  Gb  short.o [4]
+?w0                     0x000000         Data  Gb  vregs.o [4]
+?w1                     0x000002         Data  Gb  vregs.o [4]
+?w2                     0x000004         Data  Gb  vregs.o [4]
+?w3                     0x000006         Data  Gb  vregs.o [4]
+?w4                     0x000008         Data  Gb  vregs.o [4]
+?w5                     0x00000a         Data  Gb  vregs.o [4]
+?w6                     0x00000c         Data  Gb  vregs.o [4]
+?w7                     0x00000e         Data  Gb  vregs.o [4]
+CLK_PeripheralClockConfig
+                        0x00871e   0x89  Code  Gb  stm8l15x_clk.o [1]
+CLK_RTCClockConfig      0x008bf0    0xa  Code  Gb  stm8l15x_clk.o [1]
+CLK_SYSCLKDivConfig     0x008c12    0x4  Code  Gb  stm8l15x_clk.o [1]
+CSTACK$$Base            0x000700          --   Gb  - Linker created -
+CSTACK$$Limit           0x000800          --   Gb  - Linker created -
+CapLetterMap            0x0089be   0x34  Data  Gb  stm8l_discovery_lcd.o [1]
+EXTI1_IRQHandler        0x008a91   0x21  Code  Gb  stm8l15x_it.o [1]
+EXTI_ClearITPendingBit  0x008a70   0x21  Code  Gb  stm8l15x_exti.o [1]
+FLASH_GetFlagStatus     0x008afb   0x18  Code  Gb  stm8l15x_flash.o [1]
+FLASH_ProgramBlock      0x000010   0xae  Code  Gb  stm8l15x_flash.o [1]
+FLASH_ReadByte          0x008c16    0x4  Code  Gb  stm8l15x_flash.o [1]
+FLASH_SetProgrammingTime
+                        0x008bbb    0xf  Code  Gb  stm8l15x_flash.o [1]
+FLASH_Unlock            0x008ae2   0x19  Code  Gb  stm8l15x_flash.o [1]
+GPIO_Init               0x008690   0x8e  Code  Gb  stm8l15x_gpio.o [1]
+GPIO_ToggleBits         0x008bfa    0x7  Code  Gb  stm8l15x_gpio.o [1]
+INTVEC$$Base            0x008000          --   Gb  - Linker created -
+INTVEC$$Limit           0x008080          --   Gb  - Linker created -
+LCD_Cmd                 0x008bca    0xd  Code  Gb  stm8l15x_lcd.o [1]
+LCD_ContrastConfig      0x008b75   0x13  Code  Gb  stm8l15x_lcd.o [1]
+LCD_Conv_Char_Seg       0x008468   0xe1  Code  Lc  stm8l_discovery_lcd.o [1]
+LCD_DeadTimeConfig      0x008b62   0x13  Code  Gb  stm8l15x_lcd.o [1]
+LCD_GLASS_Clear         0x008b9b   0x10  Code  Gb  stm8l_discovery_lcd.o [1]
+LCD_GLASS_DisplayString
+                        0x0089f2   0x2f  Code  Gb  stm8l_discovery_lcd.o [1]
+LCD_GLASS_Init          0x008922   0x56  Code  Gb  stm8l_discovery_lcd.o [1]
+LCD_GLASS_WriteChar     0x008080  0x3e8  Code  Gb  stm8l_discovery_lcd.o [1]
+LCD_Init                0x0087a7   0x87  Code  Gb  stm8l15x_lcd.o [1]
+LCD_PortMaskConfig      0x008be4    0xc  Code  Gb  stm8l15x_lcd.o [1]
+LCD_PulseOnDurationConfig
+                        0x008b4f   0x13  Code  Gb  stm8l15x_lcd.o [1]
+LCD_bar                 0x008a49   0x27  Code  Gb  stm8l_discovery_lcd.o [1]
+NumberMap               0x008b13   0x14  Data  Gb  stm8l_discovery_lcd.o [1]
+Region$$Table$$Base     0x008ab2          --   Gb  - Linker created -
+Region$$Table$$Limit    0x008ac4          --   Gb  - Linker created -
+__DebugBreak            0x008c26    0x1  Code  Gb  __dbg_break.o [3]
+__exit                  0x008b3b   0x14  Code  Gb  __dbg_xxexit.o [3]
+__iar_copy_init2        0x008a21         Code  Gb  init_small.o [4]
+__iar_data_init2        0x008b27   0x14  Code  Gb  init.o [4]
+__iar_program_start     0x008b88         Code  Gb  cstartup.o [4]
+__iar_unhandled_exception
+                        0x008c23         Code  Gb  unhandled_exception.o [4]
+__iar_zero_init2        0x008ac4         Code  Gb  init_small.o [4]
+__intvec                0x008000         Data  Gb  interrupt.o [4]
+__low_level_init        0x008c1d    0x3  Code  Gb  low_level_init.o [4]
+_exit                   0x008c0d         Code  Gb  cexit.o [4]
+_interrupt_11           0x008a91         Code  Gb  stm8l15x_it.o [1]
+buffer                  0x0000be   0x80  Data  Gb  main.o [1]
+conf                    0x00013e    0x3  Data  Gb  main.o [1]
+exit                    0x008c20    0x3  Code  Gb  exit.o [4]
+flash_save              0x008978   0x46  Code  Gb  board_flash.o [1]
+main                    0x00882e   0x83  Code  Gb  main.o [1]
+t_bar                   0x000141    0x2  Data  Gb  stm8l_discovery_lcd.o [1]
+
+
+[1] = C:\Users\Vova\bars\dev\soft\iar_test\Debug\Obj
+[2] = command line
+[3] = dbgstm8smd.a
+[4] = dlstm8smn.a
+
+  2 713 bytes of readonly  code memory
+    174 bytes of readwrite code memory
+    398 bytes of readonly  data memory
+    405 bytes of readwrite data memory
+
+Errors: none
+Warnings: none

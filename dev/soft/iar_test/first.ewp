@@ -16,7 +16,7 @@
                 <debug>1</debug>
                 <option>
                     <name>GenDeviceSelectMenu</name>
-                    <state>UnspecifiedSTM8	STM8 - Unspecified</state>
+                    <state>STM8L152C6	STM8L152C6</state>
                 </option>
                 <option>
                     <name>GenCodeModel</name>
@@ -56,7 +56,7 @@
                 </option>
                 <option>
                     <name>GenRTDescription</name>
-                    <state></state>
+                    <state>Use the normal configuration of the C/EC++ runtime library. No locale interface, C locale, no file descriptor support, no multibytes in printf and scanf, and no hex floats in strtod.</state>
                 </option>
                 <option>
                     <name>GenRTConfigPath</name>
@@ -69,7 +69,7 @@
                 </option>
                 <option>
                     <name>GenLibInFormatterDescription</name>
-                    <state></state>
+                    <state>Full formatting, without multibytes.</state>
                 </option>
                 <option>
                     <name>GenLibOutFormatter</name>
@@ -78,15 +78,15 @@
                 </option>
                 <option>
                     <name>GenLibOutFormatterDescription</name>
-                    <state></state>
+                    <state>Full formatting, without multibytes.</state>
                 </option>
                 <option>
                     <name>GenStackSize</name>
-                    <state>###Uninitialized###</state>
+                    <state>0x100</state>
                 </option>
                 <option>
                     <name>GenHeapSize</name>
-                    <state>###Uninitialized###</state>
+                    <state>0x100</state>
                 </option>
                 <option>
                     <name>GeneralEnableMisra</name>
@@ -117,7 +117,7 @@
                 </option>
                 <option>
                     <name>GenMathFunctionDescription</name>
-                    <state></state>
+                    <state>Default variants of cos, sin, tan, log, log10, pow, and exp.</state>
                 </option>
             </data>
         </settings>
@@ -188,7 +188,8 @@
                 </option>
                 <option>
                     <name>CCDefines</name>
-                    <state></state>
+                    <state>STM8L15X_MD</state>
+                    <state>RAM_EXECUTION</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -256,7 +257,9 @@
                 </option>
                 <option>
                     <name>CCIncludePath2</name>
-                    <state></state>
+                    <state>C:\Users\Vova\bars\dev\soft\Libraries\STM8L15x_StdPeriph_Driver\inc</state>
+                    <state>C:\Users\Vova\bars\dev\soft\Libraries\STM8L15x_StdPeriph_Driver\src</state>
+                    <state>C:\Users\Vova\bars\dev\soft\iar_test</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -487,7 +490,7 @@
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state></state>
+                    <state>first.srec</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -606,7 +609,7 @@
                 </option>
                 <option>
                     <name>IlinkIcfFile</name>
-                    <state>lnk0t.icf</state>
+                    <state>$TOOLKIT_DIR$\config\lnkstm8l152c6.icf</state>
                 </option>
                 <option>
                     <name>IlinkIcfFileSlave</name>
@@ -670,7 +673,7 @@
                 </option>
                 <option>
                     <name>IlinkProgramEntryLabel</name>
-                    <state></state>
+                    <state>__iar_program_start</state>
                 </option>
                 <option>
                     <name>DoFill</name>
@@ -1603,7 +1606,112 @@
             <data />
         </settings>
     </configuration>
+    <group>
+        <name>std_periph</name>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_adc.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_aes.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_beep.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_clk.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_comp.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_dac.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_dma.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_exti.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_flash.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_gpio.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_i2c.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_irtim.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_itc.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_iwdg.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_lcd.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_pwr.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_rst.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_rtc.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_spi.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_syscfg.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_tim1.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_tim2.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_tim3.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_tim4.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_tim5.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_usart.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_wfe.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Libraries\STM8L15x_StdPeriph_Driver\src\stm8l15x_wwdg.c</name>
+        </file>
+    </group>
+    <file>
+        <name>$PROJ_DIR$\board_flash.c</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\delay.c</name>
+    </file>
     <file>
         <name>$PROJ_DIR$\main.c</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\stm8l15x_conf.h</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\stm8l15x_it.c</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\stm8l15x_it.h</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\stm8l_discovery_lcd.c</name>
     </file>
 </project>
