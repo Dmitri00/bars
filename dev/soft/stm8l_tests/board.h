@@ -3,7 +3,10 @@
 #include "delay.h"
 #include "board_pins.h"
 #define MAX_CALLBACKS 6
-typedef bool (*Callback)(void);
+#define CLK_MAX_DIV  7
+
+
+
 
 
 

@@ -16,5 +16,11 @@
 #define ICC_WAKEUP_GPIO_PIN        GPIO_Pin_6
 #define ICC_WAKEUP_EXTI_PIN        EXTI_Pin_3
 
+#define SPI_PORT                   GPIOB
+#define SPI_NSS_PIN                GPIO_Pin_4
+#define SPI_SCK_PIN                GPIO_Pin_5
+#define SPI_MOSI_PIN               GPIO_Pin_6
+#define SPI_MISO_PIN               GPIO_Pin_7
+
 #define CONFIG CONFIG_BLOCK
 #define CONFIG_BLOCK 0

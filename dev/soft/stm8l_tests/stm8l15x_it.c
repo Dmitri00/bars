@@ -30,6 +30,7 @@
 #include "stm8l15x_it.h"
 #include "stm8l15x_exti.h"
 #include "stm8l_discovery_lcd.h" 
+#include "stm8l15x_rtc.h" 
 #include "board.h"
 #include "tests.h"
 
@@ -48,7 +49,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 uint8_t cb_num = 0;
-Callback current_cb;
+
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 /* Public functions ----------------------------------------------------------*/
@@ -121,6 +122,7 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler, 4)
   /* In order to detect unexpected events during development,
      it is recommended to set a breakpoint on the following instruction.
   */
+  RTC_ClearITPendingBit(RTC_IT_WUT);
 }
 /**
   * @brief External IT PORTE/ PORTF and PVD Interrupt routine.
@@ -197,6 +199,10 @@ INTERRUPT_HANDLER(EXTI1_IRQHandler,9)
             flashTest();
             cb_num++;
             break;
+        case 4:
+              rtcTest();
+              cb_num++;
+              break;
         default:
             break;
     }
