@@ -42,6 +42,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
+/*! Check whatever it is needed to work with i-th connected counter */
 #define IS_ACTIVE_COUNTER(x) FLASH_ReadByte(COUNTERS_STATE_ADDR)&(0x01<<x) == 1
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
@@ -51,7 +52,27 @@ uint8_t cb_num = 0;
 CounterPacket_t packet;
 uint8_t raw_packet[PACKET_SIZE];
 /* Private function prototypes -----------------------------------------------*/
+/*! Shortcut for measuring voltage from battery source */
+uint32_t readBattADC();
 /* Private functions ---------------------------------------------------------*/
+uint32_t readBattADC() {
+    CLK_PeripheralClockConfig(CLK_Peripheral_ADC1, ENABLE);
+    /* Enable ADC1 */
+    ADC_Cmd(ADC1, ENABLE);
+    /* Enable ADC1 Channel used for IDD measurement */
+    ADC_ChannelCmd(ADC1, ADC_IDD_MEASUREMENT_CHANNEL, ENABLE);
+
+    ADC_SoftwareStartConv(ADC1);
+    /* Wait until End-Of-Convertion */
+    while (ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == 0)
+    {}
+
+    /* Get conversion value in uV */
+    uint32_t ADCData = (uint32_t)((uint32_t)ADC_GetConversionValue(ADC1) *(uint32_t)ADC_CONVERT_RATIO_uV) ;
+    /* Convert uV to mV */
+    ADCData = ADCData / (uint32_t)1000;
+    return ADCData;
+}
 /* Public functions ----------------------------------------------------------*/
 
 #ifdef _COSMIC_
@@ -149,7 +170,11 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler, 4)
             packet.id = (FLASH_ReadByte(COUNTER0_ID_ADDR(i)+1))<<8
                 + 
               FLASH_ReadByte(COUNTER0_ID_ADDR(i));
-            packet.battery_state = 0;
+            /* Add to the packet info about battery level to show it on the webser screen */
+            uint32_t battVoltage = readBattADC();
+            packet.battery_state = battVoltage > BATTERY_HIGH_ADC_LEVEL ? HIGH : /* High battery level */
+              ( battVoltage > BATTERY_MID_ADC_LEVEL ? MID : /* Mid battery level */
+                  LOW );                                    /* Low battery level */
             memcpy(raw_packet, packet, PACKET_SIZE);
             //send packet via spi to esp
             
@@ -269,25 +294,10 @@ INTERRUPT_HANDLER(EXTI4_IRQHandler, 12)
   */
 INTERRUPT_HANDLER(EXTI5_IRQHandler, 13)
 {
-  /* In order to detect unexpected events during development,
-     it is recommended to set a breakpoint on the following instruction.
-  */
-    if(GPIO_ReadInputDataBit(BUTTON0_GPIO_PORT,BUTTON0_GPIO_PIN) == SET) {
-        CLK_PeripheralClockConfig(CLK_Peripheral_ADC1, ENABLE);
-        /* Enable ADC1 */
-        ADC_Cmd(ADC1, ENABLE);
-        /* Enable ADC1 Channel used for IDD measurement */
-        ADC_ChannelCmd(ADC1, ADC_IDD_MEASUREMENT_CHANNEL, ENABLE);
 
-        ADC_SoftwareStartConv(ADC1);
-        /* Wait until End-Of-Convertion */
-        while (ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == 0)
-        {}
-
-        /* Get conversion value */
-        uint16_t ADCData = ADC_GetConversionValue(ADC1);
+    if(GPIO_ReadInputDataBit(BUTTON0_GPIO_PORT,BUTTON0_GPIO_PIN) == SET) {        
         
-        if (ADCData >=BATTERY_HIGH_ADC_LEVEL) {
+        if (readBattADC() > BATTERY_HIGH_ADC_LEVEL) {
             GPIO_WriteBit(LED1_GPIO_PORT,LED1_GPIO_PIN, SET);//1
             delay_um(200);
             GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
@@ -316,7 +326,7 @@ INTERRUPT_HANDLER(EXTI5_IRQHandler, 13)
 
 
   }
-  EXTI_ClearITPendingBit(EXTI_IT_Pin6);
+  EXTI_ClearITPendingBit(EXTI_IT_Pin5);
 }
 
 /**
