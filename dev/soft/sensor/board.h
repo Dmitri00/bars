@@ -15,14 +15,18 @@ typedef enum BatteryState { LOW, MID, HIGH } BatteryState_t;
 
 #define BATTERY_MEASUREMENT_FREQUENCY_MINS  60
 #define BATTERY_MEASUREMENT_FREQUENCTY  BATTERY_MEASUREMENT_FREQUENCY_MINS*60
-#define BATTERY_HIGH_ADC_LEVEL 60
-#define BATTERY_LOW_ADC_LEVEL 56
+#define ADC_CONVERT_RATIO_uV    806      /* (3300mV / 0xFFF) * 1000  => uV*/
+#define BATTERY_MAX_ADC_LEVEL   2860  /* mV */
+#define BATTERY_HIGH_ADC_LEVEL  2450  /* mV */
+#define BATTERY_MID_ADC_LEVEL   2050  /* mV */
+#define BATTERY_MIN_ADC_LEVEL   1650  /* mV */
 
 
 #define PUBLICATION_PERIOD_HOURS 180
 #define PUBLICATION_PERIOD PUBLICATION_PERIOD_HOURS*60*60
 
 /* Counter's data structures */
+/*! State of every counter is encoded with 1 bit (on/off) */
 #define COUNTERS_STATE_ADDR 0x001000
 #define COUNTER_NUM 2
 #define COUNTER_STRUCT_SIZE 4
