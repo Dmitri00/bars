@@ -34,3 +34,4 @@
 
 /* Battery voltage measurement */
 #define BATT_VOLTAGE_MEASUREMENT_CHANNEL ADC_Channel_0
+

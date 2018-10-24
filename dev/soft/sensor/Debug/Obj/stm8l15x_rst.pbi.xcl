@@ -262,7 +262,7 @@ C:\Users\Vova\bars\dev\soft\sensor
 -D__EDG_ANSIC=1
 -D__EDG_CPP11_IL_EXTENSIONS_SUPPORTED=1
 -DSTM8L15X_MD=1
--DBARS_BOARD=1
+-DDISCOVERY_BOARD=1
 -D_DLIB_CONFIG_FILE_HEADER_NAME="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\stm8\LIB\dlstm8smn.h"
 -D_DLIB_CONFIG_FILE_STRING="C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\LIB\\dlstm8smn.h"
 -D__VERSION__="IAR C/C++ Compiler V3.10.1.201 for STM8"

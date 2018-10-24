@@ -2108,6 +2108,9 @@
         <file>
             <name>$PROJ_DIR$\..\Libraries\board_lib\src\stm8l_discovery_lcd.c</name>
         </file>
+        <file>
+            <name>$PROJ_DIR$\tools.c</name>
+        </file>
     </group>
     <group>
         <name>StdPeriph</name>

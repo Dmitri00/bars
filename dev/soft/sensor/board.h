@@ -4,14 +4,18 @@
 
 #ifdef DISCOVERY_BOARD
 #include "board_pins.h"
+#include "stm8l_discovery_lcd.h"
+#define DEBUG(X) //disableInterrupts();LCD_GLASS_Init();LCD_GLASS_ScrollSentenceDef(X);LCD_DeInit();enableInterrupts()
 #endif /* DISCOVERY_BOARD */
 #ifdef BARS_BOARD
 #include "board_pins_bars.h"
+#define DEBUG(X) ;
 #endif /* BARS_BOARD */
 
-
+#define CLK_MAX_DIV 7
 typedef enum CriticalSection { LOCKED, FREE } CriticalSection_t;
 typedef enum BatteryState { LOW, MID, HIGH } BatteryState_t;
+typedef enum MCUState { ERROR_STATE, OK, CONFIG } MCUState_t;
 
 #define BATTERY_MEASUREMENT_FREQUENCY_MINS  60
 #define BATTERY_MEASUREMENT_FREQUENCTY  BATTERY_MEASUREMENT_FREQUENCY_MINS*60
@@ -27,17 +31,29 @@ typedef enum BatteryState { LOW, MID, HIGH } BatteryState_t;
 
 /* Counter's data structures */
 /*! State of every counter is encoded with 1 bit (on/off) */
-#define COUNTERS_STATE_ADDR 0x001000
-#define COUNTER_NUM 2
-#define COUNTER_STRUCT_SIZE 4
-#define COUNTERS_STRUCT_ADDR 0x001001
-#define COUNTER_ADDR(x) COUNTERS_STRUCT_ADDR+COUNTER_STRUCT_SIZE*x
-#define COUNTER_ID_ADDR (COUNTERS_STRUCT_ADDR+2)+COUNTER_STRUCT_SIZE*x
+#define INTERVAL_ADDR 0x001000
 
+#ifdef BARS_BOARD
+#define COUNTER_NUM 2
+#endif
+#ifdef DISCOVERY_BOARD
+#define COUNTER_NUM 1
+#endif
+
+#define COUNTERS_ADDR 0x001004
+#define COUNTER_SIZE    4
+#define COUNTER_ADDR(x) COUNTERS_ADDR+COUNTER_SIZE*x
+#define SPI_RESP_TIMEOUT 60
 #define PACKET_SIZE 6
 typedef struct CounterPacket {
     uint16_t id;
     uint16_t counter;
     uint16_t battery_state;
 } CounterPacket_t;
+typedef struct SPIRequest {
+  uint8_t reserved: 5, battery : 2, rw : 1;
+} SPIRequest_t;
+typedef struct IntervalPacket {
+  uint16_t  reserved : 3,ready : 1, interval : 12;
+} IntervalPacket_t;
 #endif /* _BOARD_H_ */

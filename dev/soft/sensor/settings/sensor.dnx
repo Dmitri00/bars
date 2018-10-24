@@ -48,9 +48,35 @@
         <FreqHi>0</FreqHi>
         <MultiCoreRunAll>1</MultiCoreRunAll>
     </Simulator>
+    <DebugChecksum>
+        <Checksum>3198407845</Checksum>
+    </DebugChecksum>
+    <CallStack>
+        <ShowArgs>0</ShowArgs>
+    </CallStack>
+    <DataSample>
+        <LogEnabled>0</LogEnabled>
+        <GraphEnabled>0</GraphEnabled>
+        <ShowTimeLog>1</ShowTimeLog>
+    </DataSample>
     <Breakpoints>
-        <Count>0</Count>
+        <Bp0>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.382.13" 1 0 0 0 "" 0 ""</Bp0>
+        <Bp1>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.465.16" 1 0 0 0 "" 0 ""</Bp1>
+        <Bp2>_ "STD_CODE" "{$PROJ_DIR$\main.c}.55.13" 1 0 0 0 "" 0 ""</Bp2>
+        <Bp3>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.172.5" 1 0 0 0 "" 0 ""</Bp3>
+        <Bp4>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.234.1" 1 0 0 0 "" 0 ""</Bp4>
+        <Bp5>_ "STD_CODE" "{$PROJ_DIR$\tools.c}.75.1" 0 0 0 0 "" 0 ""</Bp5>
+        <Count>6</Count>
     </Breakpoints>
+    <LogFile>
+        <LoggingEnabled>_ 0</LoggingEnabled>
+        <LogFile>_ ""</LogFile>
+        <Category>_ 0</Category>
+    </LogFile>
+    <TermIOLog>
+        <LoggingEnabled>_ 0</LoggingEnabled>
+        <LogFile>_ ""</LogFile>
+    </TermIOLog>
     <Aliases>
         <Count>0</Count>
         <SuppressDialog>0</SuppressDialog>

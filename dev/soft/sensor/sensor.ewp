@@ -189,7 +189,7 @@
                 <option>
                     <name>CCDefines</name>
                     <state>STM8L15X_MD</state>
-                    <state>BARS_BOARD</state>
+                    <state>DISCOVERY_BOARD</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -609,7 +609,7 @@
                 </option>
                 <option>
                     <name>IlinkIcfFile</name>
-                    <state>lnk0t.icf</state>
+                    <state>$TOOLKIT_DIR$\config\lnkstm8l152c6.icf</state>
                 </option>
                 <option>
                     <name>IlinkIcfFileSlave</name>
@@ -673,7 +673,7 @@
                 </option>
                 <option>
                     <name>IlinkProgramEntryLabel</name>
-                    <state></state>
+                    <state>__iar_program_start</state>
                 </option>
                 <option>
                     <name>DoFill</name>
@@ -1616,6 +1616,9 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\Libraries\board_lib\src\stm8l_discovery_lcd.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\tools.c</name>
         </file>
     </group>
     <group>
