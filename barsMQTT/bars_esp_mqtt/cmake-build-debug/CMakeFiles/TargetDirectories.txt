@@ -1,0 +1,3 @@
+/opt/Espressif/esp-open-sdk/bars_esp_mqtt/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/opt/Espressif/esp-open-sdk/bars_esp_mqtt/cmake-build-debug/CMakeFiles/edit_cache.dir
+/opt/Espressif/esp-open-sdk/bars_esp_mqtt/cmake-build-debug/CMakeFiles/bars_esp_mqtt.dir
