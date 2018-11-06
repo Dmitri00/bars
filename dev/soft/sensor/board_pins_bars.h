@@ -32,6 +32,14 @@
 #define SPI_MOSI_PIN               GPIO_Pin_6
 #define SPI_MISO_PIN               GPIO_Pin_7
 
+/* ESP CHIP enable */
+#define ESP_CHEN_PORT               GPIOD
+#define ESP_CHEN_PIN                GPIO_Pin_3
+#define ESP_SLEEP_PORT              GPIOF
+#define ESP_SLEEP_PIN               GPIO_Pin_0
+#define ESP_RESET_PORT              GPIOD
+#define ESP_RESET_PIN               GPIO_Pin_4
+
 /* Battery voltage measurement */
 #define BATT_VOLTAGE_MEASUREMENT_CHANNEL ADC_Channel_0
 

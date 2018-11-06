@@ -31,7 +31,7 @@
 #include "stm8l15x_conf.h"
 #include "board.h"
 #include "tools.h"
-
+#include "string.h"
 
 /** @addtogroup STM8L15x_StdPeriph_Examples
   * @{
@@ -47,10 +47,10 @@ extern MCUState_t mcu_state;
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 //* synchronization object to prevent flash io conflicts among handlers
-CriticalSection_t flash_critsection = FREE;
-uint8_t cb_num = 0;
-CounterPacket_t packet;
-uint8_t raw_packet[PACKET_SIZE];
+
+
+    uint16_t raw_response;
+
 /* Private function prototypes -----------------------------------------------*/
 /*! Makes 3 trials to send spi_request
  * @retval first interval_packet with ready = 1, 0 after 3 unsuccessefull trials
@@ -58,6 +58,7 @@ uint8_t raw_packet[PACKET_SIZE];
 uint16_t get_spi_response(uint8_t rw, uint8_t trials);
 /*! Shortcut for measuring voltage from battery source */
 BatteryState_t convertBattState(uint32_t);
+void* my_memcpy(void* dest, const void* src, int count);
 /* Private functions ---------------------------------------------------------*/
 
 BatteryState_t convertBattState(uint32_t voltage) {
@@ -71,35 +72,51 @@ BatteryState_t convertBattState(uint32_t voltage) {
   return state;
 }
 uint16_t get_spi_response(uint8_t rw, uint8_t trials) {
-#ifdef BARS_BOARD
-    SPIRequest_t spi_request;
-    spi_request.rw = rw;
-    spi_request.battery = (uint8_t)convertBattState(readBattADC());
-    IntervalPacket_t interval_packet;
-    //send request to ESP
 
+    SPIRequest_t request_struct;
+    request_struct.rw = rw;
+    request_struct.battery = (uint8_t)convertBattState(readBattADC());
+    uint8_t raw_request;
+    // convert bit field structure to raw bytes
+    memcpy(&raw_request,&request_struct, 1);
+    //send request to ESP
+    uint16_t response = 0;
     uint8_t i;
+    uint8_t success_flag = 0;
     for (i = 0; i < trials; i++) {
         // exchange first byte
-        interval_packet = spi_exchange(spi_request)<<8;
+        response = spi_exchange(raw_request)<<8;
         // exchange second byte
         // second spi_request byte is for filling
-        interval_packet += spi_exchange(spi_request);
-        
-        if (interval_packet.ready == 1) 
-            return interval_packet;
-         else
-           if (i < 3) 
-                delay_ms(SPI_RESP_TIMEOUT*1000);
-            else {
-                return (uint16_t)0;
-            }
+        response += spi_exchange(raw_request);
+#ifdef BARS_BOARD
+        if (INTERVAL_PACKET_RD(response) != 0) {
+            success_flag = 1;
+            break;
+        }
+        else
+            delay_ms(SPI_RESP_TIMEOUT*1000);
+#endif
+#ifdef DISCOVERY_BOARD
+        break;
+#endif
    }
+#ifdef BARS_BOARD
+   return success_flag*response;
 #endif
 #ifdef DISCOVERY_BOARD
     return 0x1000;
 #endif
 }
+    void* my_memcpy(void* dest, const void* src, int count) {
+        char* dst8 = (char*)dest;
+        char* src8 = (char*)src;
+
+        while (count--) {
+            *dst8++ = *src8++;
+        }
+        return dest;
+    }
 /* Public functions ----------------------------------------------------------*/
 
 #ifdef _COSMIC_
@@ -167,32 +184,36 @@ INTERRUPT_HANDLER(DMA1_CHANNEL2_3_IRQHandler, 3)
   */
 INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler, 4)
 {
-  DEBUG("rtc handler");
+
     /* disable wakeup counter and IT flag */
-    RTC_WakeUpCmd(DISABLE);
-    RTC_ClearITPendingBit(RTC_IT_WUT);
+  RTC_ClearITPendingBit(RTC_IT_WUT);
+  RTC_WakeUpCmd(DISABLE); 
+  //turn ESP on
+  GPIO_WriteBit(ESP_CHEN_PORT,ESP_CHEN_PIN,SET);
+  delay_ms(100);
     
     /* FLASH IO routine */
     FLASH_Unlock(FLASH_MemType_Data);
     /* Wait until Data EEPROM area unlocked flag is set*/
     while (FLASH_GetFlagStatus(FLASH_FLAG_DUL) == RESET)
     {}
-    IntervalPacket_t interval_packet;
-    uint16_t raw_response;
+
     switch(mcu_state) {
         case CONFIG:
 DEBUG("config");
             raw_response = get_spi_response(1,3);            
             if (raw_response != 0) {
-                memcpy(interval_packet,raw_response, sizeof(raw_response));
+                //memcpy(raw,&raw_response, sizeof(interval_packet));
+                //interval_packet_p = (void*)raw;
                 // Client sets publication interval in hours, so convert it to seconds
 #ifdef BARS_BOARD
-                uin32_t interval = (uint32_t)interval_packet.interval * 60 * 60
+                uin32_t interval = (uint32_t)INTERVAL_PACKET_INTERVAL(raw_response) * 60 * 60
 #endif
 #ifdef DISCOVERY_BOARD
                 uint32_t interval = (uint32_t)30;
 #endif
                 flash_write_int32((uint32_t)INTERVAL_ADDR,interval);
+                RTC_SetWakeUpCounter(interval);
                 mcu_state = OK;
                 DEBUG(" -> OK");
             }
@@ -204,23 +225,30 @@ DEBUG("config");
           DEBUG("OK");
             uint8_t i;    
             get_spi_response(0,1);
+            uint32_t counters[2] = {0};
             for (i = 0; i < COUNTER_NUM; i++) {
                 /* read 32-bit counter */ 
                 /* counter data structures defined at board.h via #defines */
-                uint32_t counter = flash_read_int32((uint32_t)COUNTER_ADDR(i));  
+                counters[i] = flash_read_int32((uint32_t)COUNTER_ADDR(i));  
 #ifdef BARS_BOARD
-                spi_send_int32(counter);
+                spi_send_int32(counters[i]);
 #endif
-               
+               GPIO_WriteBit(LED3_GPIO_PORT,LED3_GPIO_PIN, SET);//1
+            delay_ms(200);
+            GPIO_ToggleBits(LED3_GPIO_PORT,LED3_GPIO_PIN);//0
+            delay_ms(200);
             }
             raw_response = get_spi_response(0,3);
 
             if (raw_response != 0) {
-                  memcpy(interval_packet,raw_response, sizeof(raw_response));
-                      if (interval_packet.ready == 1) {
-                        flash_write_int32((uint32_t)COUNTER_ADDR(0), (uint32_t)0);
-                        flash_write_int32((uint32_t)COUNTER_ADDR(1), (uint32_t)0);
-                        DEBUG("-> OK");
+                  //memcpy(&interval_packet,&raw_response, sizeof(raw_response));
+              uint16_t c = INTERVAL_PACKET_RD(raw_response);
+                      if (c != 0) {
+                        for (i = 0; i < COUNTER_NUM; i++) {
+                            uint32_t updated_counter = flash_read_int32((uint32_t)COUNTER_ADDR(i));
+                            updated_counter -= counters[i];
+                            flash_write_int32((uint32_t)COUNTER_ADDR(i), updated_counter);
+                        }
                       }
             }
             else {
@@ -230,7 +258,13 @@ DEBUG("config");
         default:
             break;
     }
+    //turn ESP off
+    GPIO_WriteBit(ESP_CHEN_PORT,ESP_CHEN_PIN,RESET);
+    RTC_WakeUpCmd(ENABLE); 
     //FLASH_Lock(FLASH_MemType_Data);
+
+
+
 }
 /**
   * @brief External IT PORTE/ PORTF and PVD Interrupt routine.
@@ -275,9 +309,31 @@ INTERRUPT_HANDLER(EXTID_H_IRQHandler, 7)
   */
 INTERRUPT_HANDLER(EXTI0_IRQHandler, 8)
 {
-  /* In order to detect unexpected events during development,
-     it is recommended to set a breakpoint on the following instruction.
-  */
+//delay_ms(300);
+//    if(GPIO_ReadInputDataBit(COUNT0_GPIO_PORT,COUNT0_GPIO_PIN) != RESET) {
+//        /* prevent flash io conflict with sending packet routine */
+//DEBUG("count0+1");
+//        /* FLASH IO routine */
+//        FLASH_Unlock(FLASH_MemType_Data);
+//        /* Wait until Data EEPROM area unlocked flag is set*/
+//        while (FLASH_GetFlagStatus(FLASH_FLAG_DUL) == RESET)
+//        {}
+//        /* if counter0 is active (= first bit in flash[COUNTERS_STATE_ADDR] is set) */
+//        /* read 32 counter */
+//        uint32_t counter = flash_read_int32((uint32_t)COUNTER_ADDR(0));
+//        /* update counter */
+//        counter++;
+//        flash_write_int32((uint32_t)COUNTER_ADDR(0), counter);
+//        FLASH_Lock(FLASH_MemType_Data); 
+//            GPIO_WriteBit(LED1_GPIO_PORT,LED1_GPIO_PIN, SET);//1
+//            delay_ms(200);
+//            GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
+//            delay_ms(200);
+   
+//            
+//        
+//    }
+    EXTI_ClearITPendingBit(EXTI_IT_Pin0);
 }
 
 /**
@@ -291,7 +347,9 @@ INTERRUPT_HANDLER(EXTI1_IRQHandler,9)
      it is recommended to set a breakpoint on the following instruction.
   */
 //DEBUG("Battery info");
-//    if(GPIO_ReadInputDataBit(BUTTON0_GPIO_PORT,BUTTON0_GPIO_PIN) == SET) {        
+  
+
+    if(GPIO_ReadInputDataBit (PBUTTON_GPIO_PORT,BUTTON0_GPIO_PIN) != RESET) {        
         //DEBUG("Battery high");
         if (readBattADC() >= BATTERY_HIGH_ADC_LEVEL) {
           
@@ -324,7 +382,7 @@ INTERRUPT_HANDLER(EXTI1_IRQHandler,9)
             delay_ms(200);
             GPIO_ToggleBits(LED2_GPIO_PORT,LED2_GPIO_PIN);//0
             #endif
-//        }
+        }
 
 
   }
@@ -377,7 +435,7 @@ INTERRUPT_HANDLER(EXTI4_IRQHandler, 12)
 INTERRUPT_HANDLER(EXTI5_IRQHandler, 13)
 {
 //DEBUG("Battery info");
-//    if(GPIO_ReadInputDataBit(BUTTON0_GPIO_PORT,BUTTON0_GPIO_PIN) == SET) {        
+    if(GPIO_ReadInputDataBit (BUTTON0_GPIO_PORT,BUTTON0_GPIO_PIN) != RESET) {        
         //DEBUG("Battery high");
         if (readBattADC() >= BATTERY_HIGH_ADC_LEVEL) {
           
@@ -410,7 +468,7 @@ INTERRUPT_HANDLER(EXTI5_IRQHandler, 13)
             delay_ms(200);
             GPIO_ToggleBits(LED2_GPIO_PORT,LED2_GPIO_PIN);//0
             #endif
-  //      }
+        }
 
 
   }
@@ -424,8 +482,8 @@ INTERRUPT_HANDLER(EXTI5_IRQHandler, 13)
   */
 INTERRUPT_HANDLER(EXTI6_IRQHandler, 14)
 {
-    
- //   if(GPIO_ReadInputDataBit(COUNT0_GPIO_PORT,COUNT0_GPIO_PIN) == SET) {
+    delay_ms(100);
+    if(GPIO_ReadInputDataBit(COUNT0_GPIO_PORT,COUNT0_GPIO_PIN) != RESET) {
         /* prevent flash io conflict with sending packet routine */
 DEBUG("count0+1");
         /* FLASH IO routine */
@@ -438,16 +496,20 @@ DEBUG("count0+1");
         uint32_t counter = flash_read_int32((uint32_t)COUNTER_ADDR(0));
         /* update counter */
         counter++;
+        flash_write_int32((uint32_t)COUNTER_ADDR(0), counter);
+        FLASH_Lock(FLASH_MemType_Data);   
             GPIO_WriteBit(LED1_GPIO_PORT,LED1_GPIO_PIN, SET);//1
             delay_ms(200);
             GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
             delay_ms(200);
-        flash_write_int32((uint32_t)COUNTER_ADDR(0), counter);
-        FLASH_Lock(FLASH_MemType_Data);    
+ 
             
         
-//    }
+    }
+    
+
     EXTI_ClearITPendingBit(EXTI_IT_Pin6);
+
 }
 
 /**
@@ -457,7 +519,8 @@ DEBUG("count0+1");
   */
 INTERRUPT_HANDLER(EXTI7_IRQHandler, 15)
 {
-   if(GPIO_ReadInputDataBit(COUNT1_GPIO_PORT,COUNT1_GPIO_PIN) == SET) {
+  delay_ms(100);
+   if(GPIO_ReadInputDataBit(COUNT1_GPIO_PORT,COUNT1_GPIO_PIN) != RESET) {
       DEBUG("count1+1");
         /* FLASH IO routine */
         FLASH_Unlock(FLASH_MemType_Data);
@@ -471,10 +534,12 @@ INTERRUPT_HANDLER(EXTI7_IRQHandler, 15)
         flash_write_int32((uint32_t)COUNTER_ADDR(1), counter);
         
     }
-    else if (GPIO_ReadInputDataBit(BUTTON1_GPIO_PORT,BUTTON1_GPIO_PIN) == SET) {
+   else  if (GPIO_ReadInputDataBit(BUTTON1_GPIO_PORT,BUTTON1_GPIO_PIN) != RESET) {
         mcu_state = CONFIG;
+        
         DEBUG("->config");
     }
+
     EXTI_ClearITPendingBit(EXTI_IT_Pin7);
 }
 /**
