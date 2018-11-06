@@ -3,5 +3,11 @@
     <project>
         <path>$WS_DIR$\first.ewp</path>
     </project>
+    <project>
+        <path>$WS_DIR$\..\sensor\sensor.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\..\stm8l_tests\tests.ewp</path>
+    </project>
     <batchBuild />
 </workspace>

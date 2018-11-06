@@ -1,4 +1,4 @@
-"C:\Users\Vova\bars\dev\soft\sensor\tools.c"
+"C:\Users\Vova\bars\dev\soft\Libraries\board_lib\src\tools.c"
 -std=c99
 -ferror-limit=0
 -I
