@@ -4,6 +4,7 @@
 uint8_t spi_exchange(uint8_t send);
 /*! send 32bit int via spi, smallest byte first */
 void spi_send_int32(uint32_t data);
+void send_usart(const char* message);
 uint32_t readBattADC();
 uint32_t flash_read_int32(uint32_t addr);
 void flash_write_int32(uint32_t addr, uint32_t data);

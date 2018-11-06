@@ -1,6 +1,7 @@
 #include "tools.h"
 uint8_t spi_exchange(uint8_t send) {
-    CLK_PeripheralClockConfig(CLK_Peripheral_SPI1,ENABLE);
+
+   
     SPI_Cmd(SPI1, ENABLE); 
     while (SPI_GetFlagStatus(SPI1, SPI_FLAG_TXE) == RESET)
     {}
@@ -10,19 +11,25 @@ uint8_t spi_exchange(uint8_t send) {
     {}
     uint8_t receive = SPI_ReceiveData(SPI1);
     SPI_Cmd(SPI1, DISABLE); 
+    
     return receive;
+    
 }
 void spi_send_int32(uint32_t data) {
+  CLK_PeripheralClockConfig(CLK_Peripheral_SPI1,ENABLE);
+    SPI_Cmd(SPI1, ENABLE); 
     uint8_t i;
     for (i = 0; i < 4; i++) {
     while (SPI_GetFlagStatus(SPI1, SPI_FLAG_TXE) == RESET)
     {}
-    // this spi_request is informative byte
+    
     SPI_SendData(SPI1, (uint8_t)data);
     while (SPI_GetFlagStatus(SPI1, SPI_FLAG_RXNE) == RESET)
     {}
     data = data>>8;
     }
+    SPI_Cmd(SPI1, DISABLE); 
+    CLK_PeripheralClockConfig(CLK_Peripheral_SPI1,DISABLE);
 }
 uint32_t readBattADC() {
 #ifdef BARS_BOARD
@@ -41,6 +48,8 @@ uint32_t readBattADC() {
     uint32_t ADCData = (uint32_t)((uint32_t)ADC_GetConversionValue(ADC1) *(uint32_t)ADC_CONVERT_RATIO_uV) ;
     /* Convert uV to mV */
     ADCData = ADCData / (uint32_t)1000;
+    ADC_Cmd(ADC1, DISABLE);
+    CLK_PeripheralClockConfig(CLK_Peripheral_ADC1, DISABLE);
     return ADCData;
 #endif
 #ifdef DISCOVERY_BOARD
@@ -86,4 +95,17 @@ void flash_write_int16(uint32_t addr, uint16_t data) {
     FLASH_ProgramByte(addr+1,(uint8_t)(data>>8));
     //while (FLASH_GetFlagStatus(FLASH_FLAG_EOP) == RESET)
     //{}
+}
+void send_usart(const char* message) {
+  //CLK_PeripheralClockConfig(CLK_Peripheral_USART1, ENABLE);
+  USART_Cmd( USART1,  ENABLE);  
+  uint8_t i=0;
+  while(message[i]) {
+      while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET) {}
+      USART_SendData8(USART1, message[i++]);
+  }
+  
+    
+  //CLK_PeripheralClockConfig(CLK_Peripheral_USART1, DISABLE);
+  USART_Cmd( USART1,  DISABLE);  
 }

@@ -13,7 +13,7 @@ int main( void )
 //enableInterrupts();
 //callbacks[0] = &lcdTest;
   //lcdTest();
-        
+        spiTest();
 haltTest();
   while (1) {
 haltTest();

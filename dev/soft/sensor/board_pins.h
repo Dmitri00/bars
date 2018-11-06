@@ -34,15 +34,19 @@
 #define SPI_MOSI_PIN               GPIO_Pin_6
 #define SPI_MISO_PIN               GPIO_Pin_7
 
-/* gpio defines for button1 and counters simulation */
-#define BUTTON1_HIGH_GPIO_PORT     GPIOC
-#define BUTTON1_HIGH_GPIO_PIN      GPIO_Pin_6
+/* USART */
+#define USART_TX_PORT              GPIOC
+#define USART_TX_PIN              GPIO_Pin_3
 
-#define COUNT0_HIGH_GPIO_PORT     GPIOD
-#define COUNT0_HIGH_GPIO_PIN      GPIO_Pin_5
-#define COUNT1_HIGH_GPIO_PORT     GPIOC
-#define COUNT1_HIGH_GPIO_PIN      GPIO_Pin_0
-/* end io simulation */
+
+/* ESP CHIP enable */
+#define ESP_CHEN_PORT               GPIOD
+#define ESP_CHEN_PIN                GPIO_Pin_3
+#define ESP_SLEEP_PORT              GPIOF
+#define ESP_SLEEP_PIN               GPIO_Pin_0
+#define ESP_RESET_PORT              GPIOD
+#define ESP_RESET_PIN               GPIO_Pin_4
+
 
 /*-------------------------*/
 #define PBUTTON_GPIO_PORT          	GPIOC
