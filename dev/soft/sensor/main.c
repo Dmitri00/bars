@@ -3,7 +3,15 @@
 #include "board.h"
 #include "tools.h"
 
-/*! global state variable to exchange info between main.c and interrupts */
+/* How to run:
+ * 1) Change target architecture in project's properties to stm8l052c6
+ * 2) Add define STM8L05X_MD_VL to the progect: Progect->Options->C/C++->Preprocessor->
+ * ->Defined symbols
+ * 3) Choose in `board.h` define BARS_BOARD
+ * 4) Make and load code
+ */
+
+//Initial state = Get interval from ESP
 MCUState_t mcu_state = CONFIG;
 void RTC_init();
 void GPIO_init();
@@ -14,14 +22,6 @@ void USART_init();
 
 int main( void )
 {
-
-#ifdef DISCOVERY_BOARD
-
-//USART_init();
-#endif
-
-    DEBUG("1");
-   
     GPIO_init();
     SPI_init();
     ADC_init();
@@ -35,7 +35,6 @@ int main( void )
     flash_write_int32(INTERVAL_ADDR,(uint32_t)0);
     flash_write_int32(COUNTER_ADDR(0), (uint32_t)0);
     flash_write_int32(COUNTER_ADDR(1), (uint32_t)0);
-    DEBUG("2");
 
     enableInterrupts();
     while(1) {
@@ -43,27 +42,25 @@ int main( void )
       switch (mcu_state) {
         case OK:
             DEBUG(" main:ok ");        
-            
+            if (RTC_GetWakeUpCounter() == 0) 
+                RTC_SetWakeUpCounter(RTCWUT_30MINS);
+            RTC_WakeUpCmd(ENABLE); 
+
             halt();
             
             break;
         case CONFIG:
           DEBUG(" main:config ");
             // do first configuration always in case of reconfiguration state
-          RTC_DeInit();
+             RTC_DeInit();
              RTC_init();
              RTC_WakeUpCmd(ENABLE); 
             halt();
-            
-
             break;
         case ERROR_STATE:
             // toogle led, delay
             // wait for CLR
-          DEBUG(" main:error ");
-            GPIO_WriteBit(LED3_GPIO_PORT,LED3_GPIO_PIN, SET);//1
-            delay_ms(200);
-            GPIO_ToggleBits(LED3_GPIO_PORT,LED3_GPIO_PIN);//0
+            GPIO_ToggleBits(LED3_GPIO_PORT,LED3_GPIO_PIN);//1
             delay_ms(200);
             break;
         default:
@@ -73,6 +70,7 @@ int main( void )
   return 0;
 }
 void RTC_init() {
+#ifdef DISCOVERY_BOARD
     /* Enable RTC clock */
     CLK_PeripheralClockConfig(CLK_Peripheral_RTC, ENABLE);
 
@@ -82,21 +80,40 @@ void RTC_init() {
     RTC_WakeUpCmd(DISABLE); 
     RTC_SetWakeUpCounter(1);
     RTC_ITConfig(RTC_IT_WUT, ENABLE);
+#endif
+
+#ifdef BARS_BOARD
+        // Enable external 32.768 KHz oscillator
+    CLK_LSEConfig (CLK_LSE_ON);
+    while (CLK_GetFlagStatus(CLK_FLAG_LSERDY) == RESET) {}
     
+    // Divide LSE totally by 64*16=1024 from 32768 Hz to 32 Hz 
+    CLK_RTCClockConfig (CLK_RTCCLKSource_LSE, CLK_RTCCLKDiv_64);
+    CLK_PeripheralClockConfig(CLK_Peripheral_RTC, ENABLE);
+    RTC_WakeUpClockConfig (RTC_WakeUpClock_RTCCLK_Div16);
+    
+    RTC_WakeUpCmd(DISABLE); 
+    // RTCWUT_FREQ equal to 32 Hz
+    RTC_SetWakeUpCounter( RTCWUT_FREQ); //Set up timer for 1 sec
+    RTC_ITConfig(RTC_IT_WUT, ENABLE);
+#endif
 }
 void GPIO_init() {
 
     GPIO_Init(COUNT0_GPIO_PORT,COUNT0_GPIO_PIN, GPIO_Mode_In_FL_IT);
-    //GPIO_Init(COUNT1_GPIO_PORT,COUNT1_GPIO_PIN, GPIO_Mode_In_FL_IT);
+    GPIO_Init(COUNT1_GPIO_PORT,COUNT1_GPIO_PIN, GPIO_Mode_In_FL_IT);
     //Set exti pin sensitivity
-    EXTI_SetPinSensitivity (EXTI_Pin_7,EXTI_Trigger_Rising);
-    EXTI_SetPinSensitivity (EXTI_Pin_6,EXTI_Trigger_Rising);
-    EXTI_SetPinSensitivity (EXTI_Pin_5,EXTI_Trigger_Rising);
-    EXTI_SetPinSensitivity (EXTI_Pin_1,EXTI_Trigger_Rising);
-    EXTI_SetPinSensitivity (EXTI_Pin_0,EXTI_Trigger_Rising);
-
+#ifdef DISCOVERY_BOARD
     GPIO_Init(BUTTON0_GPIO_PORT,BUTTON0_GPIO_PIN, GPIO_Mode_In_FL_IT);
     GPIO_Init(BUTTON1_GPIO_PORT,BUTTON1_GPIO_PIN, GPIO_Mode_In_FL_IT);
+    EXTI_SetPinSensitivity (EXTI_Pin_7,EXTI_Trigger_Rising);
+    EXTI_SetPinSensitivity (EXTI_Pin_6,EXTI_Trigger_Rising);
+#endif
+    
+#ifdef BARS_BOARD
+    EXTI_SetPinSensitivity (EXTI_Pin_7,EXTI_Trigger_Falling);
+    EXTI_SetPinSensitivity (EXTI_Pin_6,EXTI_Trigger_Falling);
+#endif
     
     GPIO_Init(LED1_GPIO_PORT,LED1_GPIO_PIN, GPIO_Mode_Out_PP_Low_Fast);
     GPIO_Init(LED2_GPIO_PORT,LED2_GPIO_PIN, GPIO_Mode_Out_PP_Low_Fast);
@@ -114,8 +131,7 @@ void SPI_init() {
     //SPI_CLOCK:PB5, SPI_MOSI: PB6, SPI_MISO: PB7   NSS:PB4
     GPIO_Init(GPIOB, GPIO_Pin_5, GPIO_Mode_Out_PP_High_Fast);  
     GPIO_Init(GPIOB, GPIO_Pin_6, GPIO_Mode_Out_PP_High_Fast);  
-    GPIO_Init(GPIOB, GPIO_Pin_7, GPIO_Mode_In_PU_No_IT);  
-    /* CS */  
+    GPIO_Init(GPIOB, GPIO_Pin_7, GPIO_Mode_In_PU_No_IT);   
     GPIO_Init(GPIOB , GPIO_Pin_4, GPIO_Mode_Out_PP_High_Fast);  
     
     SPI_Init(SPI1, SPI_FirstBit_MSB, SPI_BaudRatePrescaler_2, SPI_Mode_Master,  
@@ -131,7 +147,7 @@ void ADC_init() {
     /* ADC channel used for IDD measurement */
     ADC_SamplingTimeConfig(ADC1, BATT_VOLTAGE_MEASUREMENT_CHANNEL, ADC_SamplingTime_384Cycles);
     /* Disable SchmittTrigger for ADC_Channel, to save power */
-    ADC_SchmittTriggerConfig(ADC1, ADC_IDD_MEASUREMENT_CHANNEL, DISABLE);
+    ADC_SchmittTriggerConfig(ADC1, BATT_VOLTAGE_MEASUREMENT_CHANNEL, DISABLE);
         /* Start ADC1 Conversion using Software trigger*/
 #endif
 #ifdef DISCOVERY_BOARD
@@ -142,7 +158,7 @@ void ADC_init() {
 }
     
 void USART_init() {
-    CLK_PeripheralClockConfig(CLK_Peripheral_USART1, ENABLE);  
+    /*CLK_PeripheralClockConfig(CLK_Peripheral_USART1, ENABLE);  
         GPIO_ExternalPullUpConfig(USART_TX_PORT, USART_TX_PIN, ENABLE);
       USART_Init( USART1,  
       56000,  
@@ -150,7 +166,7 @@ void USART_init() {
       USART_StopBits_1,  
       USART_Parity_No,  
       USART_Mode_Tx  
-     );
+     );*/
 }
 
 void ITC_init() {

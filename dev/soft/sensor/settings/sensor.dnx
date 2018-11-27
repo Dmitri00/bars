@@ -49,7 +49,7 @@
         <MultiCoreRunAll>1</MultiCoreRunAll>
     </Simulator>
     <DebugChecksum>
-        <Checksum>2434210526</Checksum>
+        <Checksum>4142910819</Checksum>
     </DebugChecksum>
     <CallStack>
         <ShowArgs>0</ShowArgs>
@@ -62,38 +62,37 @@
         <GraphEnabled>0</GraphEnabled>
         <ShowTimeLog>1</ShowTimeLog>
     </DataSample>
-    <LogFile>
-        <LoggingEnabled>_ 0</LoggingEnabled>
-        <LogFile>_ ""</LogFile>
-        <Category>_ 0</Category>
-    </LogFile>
     <TermIOLog>
         <LoggingEnabled>_ 0</LoggingEnabled>
         <LogFile>_ ""</LogFile>
     </TermIOLog>
     <Breakpoints>
-        <Bp0>_ "STD_CODE" "{$PROJ_DIR$\main.c}.60.13" 0 0 0 0 "" 0 ""</Bp0>
+        <Bp0>_ "STD_CODE" "{$PROJ_DIR$\main.c}.59.1" 0 0 0 0 "" 0 ""</Bp0>
         <Bp1>_ "STD_CODE" "{$PROJ_DIR$\tools.c}.101.3" 0 0 0 0 "" 0 ""</Bp1>
-        <Bp2>_ "STD_CODE" "{$PROJ_DIR$\main.c}.60.13" 0 0 0 0 "" 0 ""</Bp2>
-        <Bp3>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.664.1" 1 0 0 0 "" 0 ""</Bp3>
-        <Bp4>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.630.1" 1 0 0 0 "" 0 ""</Bp4>
-        <Bp5>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.462.13" 1 0 0 0 "" 0 ""</Bp5>
-        <Bp6>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.630.1" 1 0 0 0 "" 0 ""</Bp6>
-        <Bp7>_ "STD_CODE" "{$PROJ_DIR$\main.c}.60.13" 0 0 0 0 "" 0 ""</Bp7>
-        <Bp8>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.570.1" 1 0 0 0 "" 0 ""</Bp8>
-        <Bp9>_ "STD_CODE" "{$PROJ_DIR$\main.c}.65.13" 1 0 0 0 "" 0 ""</Bp9>
-        <Bp10>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.535.18" 1 0 0 0 "" 0 ""</Bp10>
-        <Bp11>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.526.3" 1 0 0 0 "" 0 ""</Bp11>
-        <Bp12>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.295.1" 1 0 0 0 "" 0 ""</Bp12>
-        <Bp13>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.240.16" 1 0 0 0 "" 0 ""</Bp13>
-        <Bp14>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.267.5" 1 0 0 0 "" 0 ""</Bp14>
-        <Bp15>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.217.26" 1 0 0 0 "" 0 ""</Bp15>
-        <Bp16>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.250.23" 1 0 0 0 "" 0 ""</Bp16>
-        <Bp17>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.515.5" 1 0 0 0 "" 0 ""</Bp17>
-        <Bp18>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.494.9" 1 0 0 0 "" 0 ""</Bp18>
-        <Bp19>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.194.3" 1 0 0 0 "" 0 ""</Bp19>
-        <Count>20</Count>
+        <Bp2>_ "STD_CODE" "{$PROJ_DIR$\main.c}.59.1" 0 0 0 0 "" 0 ""</Bp2>
+        <Bp3>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.517.1" 1 0 0 0 "" 0 ""</Bp3>
+        <Bp4>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.483.1" 1 0 0 0 "" 0 ""</Bp4>
+        <Bp5>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.348.1" 1 0 0 0 "" 0 ""</Bp5>
+        <Bp6>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.483.1" 1 0 0 0 "" 0 ""</Bp6>
+        <Bp7>_ "STD_CODE" "{$PROJ_DIR$\main.c}.59.13" 0 0 0 0 "" 0 ""</Bp7>
+        <Bp8>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.423.1" 1 0 0 0 "" 0 ""</Bp8>
+        <Bp9>_ "STD_CODE" "{$PROJ_DIR$\main.c}.63.1" 1 0 0 0 "" 0 ""</Bp9>
+        <Bp10>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.394.18" 1 0 0 0 "" 0 ""</Bp10>
+        <Bp11>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.387.1" 1 0 0 0 "" 0 ""</Bp11>
+        <Bp12>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.220.1" 1 0 0 0 "" 0 ""</Bp12>
+        <Bp13>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.203.17" 1 0 0 0 "" 0 ""</Bp13>
+        <Bp14>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.227.17" 1 0 0 0 "" 0 ""</Bp14>
+        <Bp15>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.374.5" 1 0 0 0 "" 0 ""</Bp15>
+        <Bp16>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.362.9" 1 0 0 0 "" 0 ""</Bp16>
+        <Bp17>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.184.1" 1 0 0 0 "" 0 ""</Bp17>
+        <Bp18>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.348.1" 1 0 0 0 "" 0 ""</Bp18>
+        <Count>19</Count>
     </Breakpoints>
+    <LogFile>
+        <LoggingEnabled>_ 0</LoggingEnabled>
+        <LogFile>_ ""</LogFile>
+        <Category>_ 0</Category>
+    </LogFile>
     <Aliases>
         <Count>0</Count>
         <SuppressDialog>0</SuppressDialog>

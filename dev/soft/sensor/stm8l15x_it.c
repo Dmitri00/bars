@@ -46,10 +46,15 @@ extern MCUState_t mcu_state;
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-//* synchronization object to prevent flash io conflicts among handlers
+uint16_t raw_response;
+/* Variable for storing remaining 30minutes's intervals before next message to server 
+   This variable stores spesifically 30 minutes's intervals because RTC Clock configured
+to the lowest frequency 32 Hz. 30 minutes both utilezes 16 bit timer (57 600 ticks)
+and allows to configure any interval subscription period with a few calculations:
+timer = hours_interval * 2 
+*/
+uint16_t halfhours_timer = 0; 
 
-
-    uint16_t raw_response;
 
 /* Private function prototypes -----------------------------------------------*/
 /*! Makes 3 trials to send spi_request
@@ -72,7 +77,9 @@ BatteryState_t convertBattState(uint32_t voltage) {
   return state;
 }
 uint16_t get_spi_response(uint8_t rw, uint8_t trials) {
-
+#ifdef DISCOVERY_BOARD
+    return 0x1001;
+#endif
     SPIRequest_t request_struct;
     request_struct.rw = rw;
     request_struct.battery = (uint8_t)convertBattState(readBattADC());
@@ -89,34 +96,17 @@ uint16_t get_spi_response(uint8_t rw, uint8_t trials) {
         // exchange second byte
         // second spi_request byte is for filling
         response += spi_exchange(raw_request);
-#ifdef BARS_BOARD
         if (INTERVAL_PACKET_RD(response) != 0) {
             success_flag = 1;
             break;
         }
         else
-            delay_ms(SPI_RESP_TIMEOUT*1000);
-#endif
-#ifdef DISCOVERY_BOARD
-        break;
-#endif
+            delay_ms(SPI_RESP_TIMEOUT);
    }
-#ifdef BARS_BOARD
    return success_flag*response;
-#endif
-#ifdef DISCOVERY_BOARD
-    return 0x1000;
-#endif
-}
-    void* my_memcpy(void* dest, const void* src, int count) {
-        char* dst8 = (char*)dest;
-        char* src8 = (char*)src;
 
-        while (count--) {
-            *dst8++ = *src8++;
-        }
-        return dest;
-    }
+}
+
 /* Public functions ----------------------------------------------------------*/
 
 #ifdef _COSMIC_
@@ -184,13 +174,19 @@ INTERRUPT_HANDLER(DMA1_CHANNEL2_3_IRQHandler, 3)
   */
 INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler, 4)
 {
-
     /* disable wakeup counter and IT flag */
   RTC_ClearITPendingBit(RTC_IT_WUT);
   RTC_WakeUpCmd(DISABLE); 
-  //turn ESP on
-  GPIO_WriteBit(ESP_CHEN_PORT,ESP_CHEN_PIN,SET);
-  delay_ms(100);
+  // Check whatever the time for message has come or not
+  
+  if (mcu_state == OK && !(--halfhours_timer))
+      return; // wait more
+  
+    // Time for message has come
+
+    //turn ESP on
+    GPIO_WriteBit(ESP_CHEN_PORT,ESP_CHEN_PIN,SET);
+    delay_ms(100);
     
     /* FLASH IO routine */
     FLASH_Unlock(FLASH_MemType_Data);
@@ -200,22 +196,12 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler, 4)
 
     switch(mcu_state) {
         case CONFIG:
-DEBUG("config");
             raw_response = get_spi_response(1,3);            
             if (raw_response != 0) {
-                //memcpy(raw,&raw_response, sizeof(interval_packet));
-                //interval_packet_p = (void*)raw;
                 // Client sets publication interval in hours, so convert it to seconds
-#ifdef BARS_BOARD
-                uin32_t interval = (uint32_t)INTERVAL_PACKET_INTERVAL(raw_response) * 60 * 60
-#endif
-#ifdef DISCOVERY_BOARD
-                uint32_t interval = (uint32_t)30;
-#endif
-                flash_write_int32((uint32_t)INTERVAL_ADDR,interval);
-                RTC_SetWakeUpCounter(interval);
+                uint16_t interval = (uint16_t)INTERVAL_PACKET_INTERVAL(raw_response) * 2;
+                flash_write_int16((uint32_t)INTERVAL_ADDR,interval);
                 mcu_state = OK;
-                DEBUG(" -> OK");
             }
             else {
                 mcu_state = ERROR_STATE;
@@ -230,40 +216,31 @@ DEBUG("config");
                 /* read 32-bit counter */ 
                 /* counter data structures defined at board.h via #defines */
                 counters[i] = flash_read_int32((uint32_t)COUNTER_ADDR(i));  
-#ifdef BARS_BOARD
                 spi_send_int32(counters[i]);
-#endif
-               GPIO_WriteBit(LED3_GPIO_PORT,LED3_GPIO_PIN, SET);//1
-            delay_ms(200);
-            GPIO_ToggleBits(LED3_GPIO_PORT,LED3_GPIO_PIN);//0
-            delay_ms(200);
             }
+            // make dalay to allow ESP to process and send data to server
+            delay_ms(5000);
             raw_response = get_spi_response(0,3);
 
+            // if transmission was successfull, than update counter
             if (raw_response != 0) {
-                  //memcpy(&interval_packet,&raw_response, sizeof(raw_response));
-              uint16_t c = INTERVAL_PACKET_RD(raw_response);
-                      if (c != 0) {
-                        for (i = 0; i < COUNTER_NUM; i++) {
-                            uint32_t updated_counter = flash_read_int32((uint32_t)COUNTER_ADDR(i));
-                            updated_counter -= counters[i];
-                            flash_write_int32((uint32_t)COUNTER_ADDR(i), updated_counter);
-                        }
-                      }
+                if (INTERVAL_PACKET_RD(raw_response) != 0)
+                    for (i = 0; i < COUNTER_NUM; i++) {
+                        uint32_t updated_counter = flash_read_int32((uint32_t)COUNTER_ADDR(i));
+                        updated_counter -= counters[i];
+                        flash_write_int32((uint32_t)COUNTER_ADDR(i), updated_counter);
+                    }
             }
-            else {
-                mcu_state = ERROR_STATE;
-            }
+            //else do nothing - for now
             break;
         default:
             break;
     }
     //turn ESP off
     GPIO_WriteBit(ESP_CHEN_PORT,ESP_CHEN_PIN,RESET);
-    RTC_WakeUpCmd(ENABLE); 
-    //FLASH_Lock(FLASH_MemType_Data);
-
-
+    
+    //set up timer for new period
+    halfhours_timer = flash_read_int16((uint32_t)INTERVAL_ADDR);
 
 }
 /**
@@ -309,31 +286,7 @@ INTERRUPT_HANDLER(EXTID_H_IRQHandler, 7)
   */
 INTERRUPT_HANDLER(EXTI0_IRQHandler, 8)
 {
-//delay_ms(300);
-//    if(GPIO_ReadInputDataBit(COUNT0_GPIO_PORT,COUNT0_GPIO_PIN) != RESET) {
-//        /* prevent flash io conflict with sending packet routine */
-//DEBUG("count0+1");
-//        /* FLASH IO routine */
-//        FLASH_Unlock(FLASH_MemType_Data);
-//        /* Wait until Data EEPROM area unlocked flag is set*/
-//        while (FLASH_GetFlagStatus(FLASH_FLAG_DUL) == RESET)
-//        {}
-//        /* if counter0 is active (= first bit in flash[COUNTERS_STATE_ADDR] is set) */
-//        /* read 32 counter */
-//        uint32_t counter = flash_read_int32((uint32_t)COUNTER_ADDR(0));
-//        /* update counter */
-//        counter++;
-//        flash_write_int32((uint32_t)COUNTER_ADDR(0), counter);
-//        FLASH_Lock(FLASH_MemType_Data); 
-//            GPIO_WriteBit(LED1_GPIO_PORT,LED1_GPIO_PIN, SET);//1
-//            delay_ms(200);
-//            GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
-//            delay_ms(200);
-   
-//            
-//        
-//    }
-    EXTI_ClearITPendingBit(EXTI_IT_Pin0);
+
 }
 
 /**
@@ -346,48 +299,6 @@ INTERRUPT_HANDLER(EXTI1_IRQHandler,9)
   /* In order to detect unexpected events during development,
      it is recommended to set a breakpoint on the following instruction.
   */
-//DEBUG("Battery info");
-  
-
-    if(GPIO_ReadInputDataBit (PBUTTON_GPIO_PORT,BUTTON0_GPIO_PIN) != RESET) {        
-        //DEBUG("Battery high");
-        if (readBattADC() >= BATTERY_HIGH_ADC_LEVEL) {
-          
-            GPIO_WriteBit(LED1_GPIO_PORT,LED1_GPIO_PIN, SET);//1
-            delay_ms(200);
-            GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
-            delay_ms(200);
-            #ifdef BARS_BOARD
-            GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//1
-            delay_ms(200);
-            GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
-            delay_ms(200);
-            GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//1
-            delay_ms(200);
-            GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
-            #endif
-        }
-        else {
-          //DEBUG("battery low");
-            GPIO_WriteBit(LED2_GPIO_PORT,LED2_GPIO_PIN, SET);//1
-            delay_ms(200);
-            #ifdef BARS_BOARD
-            GPIO_ToggleBits(LED2_GPIO_PORT,LED2_GPIO_PIN);//0
-            delay_ms(200);
-            GPIO_ToggleBits(LED2_GPIO_PORT,LED2_GPIO_PIN);//1
-            delay_ms(200);
-            GPIO_ToggleBits(LED2_GPIO_PORT,LED2_GPIO_PIN);//0
-            delay_ms(200);
-            GPIO_ToggleBits(LED2_GPIO_PORT,LED2_GPIO_PIN);//1
-            delay_ms(200);
-            GPIO_ToggleBits(LED2_GPIO_PORT,LED2_GPIO_PIN);//0
-            #endif
-        }
-
-
-  }
-  EXTI_ClearITPendingBit(EXTI_IT_Pin1);
-  
 }
 
 /**
@@ -434,45 +345,7 @@ INTERRUPT_HANDLER(EXTI4_IRQHandler, 12)
   */
 INTERRUPT_HANDLER(EXTI5_IRQHandler, 13)
 {
-//DEBUG("Battery info");
-    if(GPIO_ReadInputDataBit (BUTTON0_GPIO_PORT,BUTTON0_GPIO_PIN) != RESET) {        
-        //DEBUG("Battery high");
-        if (readBattADC() >= BATTERY_HIGH_ADC_LEVEL) {
-          
-            GPIO_WriteBit(LED1_GPIO_PORT,LED1_GPIO_PIN, SET);//1
-            delay_ms(200);
-            GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
-            delay_ms(200);
-            #ifdef BARS_BOARD
-            GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//1
-            delay_ms(200);
-            GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
-            delay_ms(200);
-            GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//1
-            delay_ms(200);
-            GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
-            #endif
-        }
-        else {
-          //DEBUG("battery low");
-            GPIO_WriteBit(LED2_GPIO_PORT,LED2_GPIO_PIN, SET);//1
-            delay_ms(200);
-            #ifdef BARS_BOARD
-            GPIO_ToggleBits(LED2_GPIO_PORT,LED2_GPIO_PIN);//0
-            delay_ms(200);
-            GPIO_ToggleBits(LED2_GPIO_PORT,LED2_GPIO_PIN);//1
-            delay_ms(200);
-            GPIO_ToggleBits(LED2_GPIO_PORT,LED2_GPIO_PIN);//0
-            delay_ms(200);
-            GPIO_ToggleBits(LED2_GPIO_PORT,LED2_GPIO_PIN);//1
-            delay_ms(200);
-            GPIO_ToggleBits(LED2_GPIO_PORT,LED2_GPIO_PIN);//0
-            #endif
-        }
 
-
-  }
-  EXTI_ClearITPendingBit(EXTI_IT_Pin5);
 }
 
 /**
@@ -482,10 +355,9 @@ INTERRUPT_HANDLER(EXTI5_IRQHandler, 13)
   */
 INTERRUPT_HANDLER(EXTI6_IRQHandler, 14)
 {
-    delay_ms(100);
-    if(GPIO_ReadInputDataBit(COUNT0_GPIO_PORT,COUNT0_GPIO_PIN) != RESET) {
-        /* prevent flash io conflict with sending packet routine */
-DEBUG("count0+1");
+        delay_ms(100);
+    FlagStatus it = (FlagStatus)(GPIO_ReadInputDataBit(COUNT0_GPIO_PORT,COUNT0_GPIO_PIN) > 0)  ;
+    if (it == RESET) { 
         /* FLASH IO routine */
         FLASH_Unlock(FLASH_MemType_Data);
         /* Wait until Data EEPROM area unlocked flag is set*/
@@ -497,17 +369,8 @@ DEBUG("count0+1");
         /* update counter */
         counter++;
         flash_write_int32((uint32_t)COUNTER_ADDR(0), counter);
-        FLASH_Lock(FLASH_MemType_Data);   
-            GPIO_WriteBit(LED1_GPIO_PORT,LED1_GPIO_PIN, SET);//1
-            delay_ms(200);
-            GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
-            delay_ms(200);
- 
-            
-        
+        FLASH_Lock(FLASH_MemType_Data);    
     }
-    
-
     EXTI_ClearITPendingBit(EXTI_IT_Pin6);
 
 }
@@ -519,9 +382,9 @@ DEBUG("count0+1");
   */
 INTERRUPT_HANDLER(EXTI7_IRQHandler, 15)
 {
-  delay_ms(100);
-   if(GPIO_ReadInputDataBit(COUNT1_GPIO_PORT,COUNT1_GPIO_PIN) != RESET) {
-      DEBUG("count1+1");
+    delay_ms(100);
+    FlagStatus it = (FlagStatus)(GPIO_ReadInputDataBit(COUNT1_GPIO_PORT,COUNT1_GPIO_PIN) > 0)  ;
+    if (it == RESET) {
         /* FLASH IO routine */
         FLASH_Unlock(FLASH_MemType_Data);
         /* Wait until Data EEPROM area unlocked flag is set*/
@@ -534,12 +397,6 @@ INTERRUPT_HANDLER(EXTI7_IRQHandler, 15)
         flash_write_int32((uint32_t)COUNTER_ADDR(1), counter);
         
     }
-   else  if (GPIO_ReadInputDataBit(BUTTON1_GPIO_PORT,BUTTON1_GPIO_PIN) != RESET) {
-        mcu_state = CONFIG;
-        
-        DEBUG("->config");
-    }
-
     EXTI_ClearITPendingBit(EXTI_IT_Pin7);
 }
 /**
