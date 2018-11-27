@@ -46,7 +46,8 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-//* synchronization object to prevent flash io conflicts among handlers
+
+
 
 
  
@@ -58,6 +59,7 @@
 
 
 /* Public functions ----------------------------------------------------------*/
+
 
 #ifdef _COSMIC_
 /**
@@ -118,13 +120,18 @@ INTERRUPT_HANDLER(DMA1_CHANNEL2_3_IRQHandler, 3)
   */
 }
 /**
-  * @brief RTC wake up from halt (sleep) mode routine
+  * @brief Toggle leds to signal about WUT 
   * @param  None
   * @retval None
   */
 INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler, 4)
 {
-
+    RTC_WakeUpCmd(DISABLE);
+    RTC_ClearITPendingBit(RTC_IT_WUT);
+    GPIO_WriteBit(LED3_GPIO_PORT,LED3_GPIO_PIN, RESET);//1
+    delay_ms(200);
+    GPIO_ToggleBits(LED3_GPIO_PORT,LED3_GPIO_PIN);//0
+    delay_ms(200);
 }
 /**
   * @brief External IT PORTE/ PORTF and PVD Interrupt routine.
@@ -254,17 +261,21 @@ INTERRUPT_HANDLER(EXTI5_IRQHandler, 13)
 INTERRUPT_HANDLER(EXTI6_IRQHandler, 14)
 {
     delay_ms(100);
-    if (GPIO_ReadInputDataBit(COUNT0_GPIO_PORT,COUNT0_GPIO_PIN) == RESET) {
-        /* prevent flash io conflict with sending packet routine */   
-        GPIO_WriteBit(LED1_GPIO_PORT,LED1_GPIO_PIN, RESET);//1
-        delay_ms(200);
-        GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
-        delay_ms(200);
-    }
-    else if (GPIO_ReadInputDataBit(BUTTON0_GPIO_PORT,BUTTON0_GPIO_PIN) == RESET) {
+    // 0x02 - low part of  definition EXTI_IT_PortD   = (uint16_t)0x0102 at SPL
+    // I try to check EXTI->SR2 (IT status of GPIOD)
+    FlagStatus it = (FlagStatus)(GPIO_ReadInputDataBit(COUNT0_GPIO_PORT,COUNT0_GPIO_PIN) > 0)  ;
+    if (it == RESET) { 
         GPIO_WriteBit(LED2_GPIO_PORT,LED2_GPIO_PIN, RESET);//1
         delay_ms(200);
         GPIO_ToggleBits(LED2_GPIO_PORT,LED2_GPIO_PIN);//0
+        delay_ms(200);
+    }
+    else 
+      //(GPIO_ReadInputDataBit(BUTTON0_GPIO_PORT,BUTTON0_GPIO_PIN) == RESET) 
+    {
+        GPIO_WriteBit(LED1_GPIO_PORT,LED1_GPIO_PIN, RESET);//1
+        delay_ms(200);
+        GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
         delay_ms(200);
     }
     EXTI_ClearITPendingBit(EXTI_IT_Pin6);
@@ -279,17 +290,17 @@ INTERRUPT_HANDLER(EXTI6_IRQHandler, 14)
 INTERRUPT_HANDLER(EXTI7_IRQHandler, 15)
 {
       delay_ms(100);
-    if (GPIO_ReadInputDataBit(COUNT1_GPIO_PORT,COUNT1_GPIO_PIN) == RESET) {
-        /* prevent flash io conflict with sending packet routine */   
-        GPIO_WriteBit(LED1_GPIO_PORT,LED1_GPIO_PIN, RESET);//1
-        delay_ms(200);
-        GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
-        delay_ms(200);
-    }
-    else if (GPIO_ReadInputDataBit(BUTTON1_GPIO_PORT,BUTTON1_GPIO_PIN) == RESET) {
+      FlagStatus it = (FlagStatus)(GPIO_ReadInputDataBit(COUNT1_GPIO_PORT,COUNT1_GPIO_PIN) > 0)  ;
+    if (it == RESET) {
         GPIO_WriteBit(LED2_GPIO_PORT,LED2_GPIO_PIN, RESET);//1
         delay_ms(200);
         GPIO_ToggleBits(LED2_GPIO_PORT,LED2_GPIO_PIN);//0
+        delay_ms(200);
+    }
+    else {
+        GPIO_WriteBit(LED1_GPIO_PORT,LED1_GPIO_PIN, RESET);//1
+        delay_ms(200);
+        GPIO_ToggleBits(LED1_GPIO_PORT,LED1_GPIO_PIN);//0
         delay_ms(200);
     }
 

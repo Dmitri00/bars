@@ -49,7 +49,7 @@
         <MultiCoreRunAll>1</MultiCoreRunAll>
     </Simulator>
     <DebugChecksum>
-        <Checksum>2968231480</Checksum>
+        <Checksum>4151063236</Checksum>
     </DebugChecksum>
     <CallStack>
         <ShowArgs>0</ShowArgs>
@@ -64,17 +64,16 @@
         <Bp1>_ "STD_CODE" "{$PROJ_DIR$\..\iar_test\stm8l15x_it.c}.346.1" 0 0 0 0 "" 0 ""</Bp1>
         <Bp2>_ "STD_CODE" "{$PROJ_DIR$\..\iar_test\stm8l15x_it.c}.299.1" 0 0 0 0 "" 0 ""</Bp2>
         <Bp3>_ "STD_CODE" "{$PROJ_DIR$\..\iar_test\stm8l15x_it.c}.151.1" 0 0 0 0 "" 0 ""</Bp3>
-        <Bp4>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.189.3" 1 0 0 0 "" 0 ""</Bp4>
-        <Bp5>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.173.1" 1 0 0 0 "" 0 ""</Bp5>
-        <Bp6>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.203.1" 1 0 0 0 "" 0 ""</Bp6>
-        <Bp7>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.139.1" 1 0 0 0 "" 0 ""</Bp7>
-        <Bp8>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.151.1" 1 0 0 0 "" 0 ""</Bp8>
-        <Bp9>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.163.1" 1 0 0 0 "" 0 ""</Bp9>
-        <Bp10>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.227.1" 1 0 0 0 "" 0 ""</Bp10>
-        <Bp11>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.215.1" 1 0 0 0 "" 0 ""</Bp11>
-        <Bp12>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.237.11" 1 0 0 0 "" 0 ""</Bp12>
-        <Bp13>_ "STD_CODE" "{$PROJ_DIR$\main.c}.30.5" 1 0 0 0 "" 0 ""</Bp13>
-        <Count>14</Count>
+        <Bp4>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.196.3" 1 0 0 0 "" 0 ""</Bp4>
+        <Bp5>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.196.3" 1 0 0 0 "" 0 ""</Bp5>
+        <Bp6>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.222.1" 1 0 0 0 "" 0 ""</Bp6>
+        <Bp7>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.158.1" 1 0 0 0 "" 0 ""</Bp7>
+        <Bp8>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.170.1" 1 0 0 0 "" 0 ""</Bp8>
+        <Bp9>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.180.1" 1 0 0 0 "" 0 ""</Bp9>
+        <Bp10>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.244.11" 1 0 0 0 "" 0 ""</Bp10>
+        <Bp11>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.234.1" 1 0 0 0 "" 0 ""</Bp11>
+        <Bp12>_ "STD_CODE" "{$PROJ_DIR$\stm8l15x_it.c}.292.7" 1 0 0 0 "" 0 ""</Bp12>
+        <Count>13</Count>
     </Breakpoints>
     <LogFile>
         <LoggingEnabled>_ 0</LoggingEnabled>
