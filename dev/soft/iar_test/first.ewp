@@ -188,8 +188,8 @@
                 </option>
                 <option>
                     <name>CCDefines</name>
-                    <state>STM8L15X_MD</state>
-                    <state>RAM_EXECUTION</state>
+                    <state>STM8L15X_MD
+</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -258,7 +258,7 @@
                 <option>
                     <name>CCIncludePath2</name>
                     <state>C:\Users\Vova\bars\dev\soft\Libraries\STM8L15x_StdPeriph_Driver\inc</state>
-                    <state>C:\Users\Vova\bars\dev\soft\Libraries\STM8L15x_StdPeriph_Driver\src</state>
+                    <state>C:\Users\Vova\bars\dev\soft\Libraries\board_lib\inc</state>
                     <state>C:\Users\Vova\bars\dev\soft\iar_test</state>
                 </option>
                 <option>
@@ -609,7 +609,7 @@
                 </option>
                 <option>
                     <name>IlinkIcfFile</name>
-                    <state>$TOOLKIT_DIR$\config\lnkstm8l152c6.icf</state>
+                    <state>$TOOLKIT_DIR$\config\lnkstm8l052c6.icf</state>
                 </option>
                 <option>
                     <name>IlinkIcfFileSlave</name>
@@ -1694,10 +1694,13 @@
         </file>
     </group>
     <file>
-        <name>$PROJ_DIR$\board_flash.c</name>
+        <name>$PROJ_DIR$\board.h</name>
     </file>
     <file>
-        <name>$PROJ_DIR$\delay.c</name>
+        <name>$PROJ_DIR$\board_pins_bars.h</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\..\Libraries\board_lib\src\delay.c</name>
     </file>
     <file>
         <name>$PROJ_DIR$\main.c</name>
@@ -1709,9 +1712,6 @@
         <name>$PROJ_DIR$\stm8l15x_it.c</name>
     </file>
     <file>
-        <name>$PROJ_DIR$\stm8l15x_it.h</name>
-    </file>
-    <file>
-        <name>$PROJ_DIR$\stm8l_discovery_lcd.c</name>
+        <name>$PROJ_DIR$\..\Libraries\board_lib\src\tools.c</name>
     </file>
 </project>

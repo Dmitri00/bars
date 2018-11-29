@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspace>
     <project>
+        <path>$WS_DIR$\..\bars_stm_test\bars_stm_test.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\..\152c6 counter\counter.ewp</path>
+    </project>
+    <project>
         <path>$WS_DIR$\first.ewp</path>
     </project>
     <project>

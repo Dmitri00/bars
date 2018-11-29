@@ -2185,10 +2185,13 @@
         </file>
     </group>
     <file>
-        <name>$PROJ_DIR$\board_flash.c</name>
+        <name>$PROJ_DIR$\board.h</name>
     </file>
     <file>
-        <name>$PROJ_DIR$\delay.c</name>
+        <name>$PROJ_DIR$\board_pins_bars.h</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\..\Libraries\board_lib\src\delay.c</name>
     </file>
     <file>
         <name>$PROJ_DIR$\main.c</name>
@@ -2200,9 +2203,6 @@
         <name>$PROJ_DIR$\stm8l15x_it.c</name>
     </file>
     <file>
-        <name>$PROJ_DIR$\stm8l15x_it.h</name>
-    </file>
-    <file>
-        <name>$PROJ_DIR$\stm8l_discovery_lcd.c</name>
+        <name>$PROJ_DIR$\..\Libraries\board_lib\src\tools.c</name>
     </file>
 </project>

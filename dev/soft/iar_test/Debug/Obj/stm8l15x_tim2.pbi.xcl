@@ -4,7 +4,7 @@
 -I
 C:\Users\Vova\bars\dev\soft\Libraries\STM8L15x_StdPeriph_Driver\inc
 -I
-C:\Users\Vova\bars\dev\soft\Libraries\STM8L15x_StdPeriph_Driver\src
+C:\Users\Vova\bars\dev\soft\Libraries\board_lib\inc
 -I
 C:\Users\Vova\bars\dev\soft\iar_test
 -I
@@ -14,7 +14,7 @@ C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\stm8\inc\c
 -I
 C:\Users\Vova\bars\dev\soft\Libraries\STM8L15x_StdPeriph_Driver\inc
 -I
-C:\Users\Vova\bars\dev\soft\Libraries\STM8L15x_StdPeriph_Driver\src
+C:\Users\Vova\bars\dev\soft\Libraries\board_lib\inc
 -I
 C:\Users\Vova\bars\dev\soft\iar_test
 -D__CHAR_BITS__=8
@@ -261,8 +261,7 @@ C:\Users\Vova\bars\dev\soft\iar_test
 -D__EDG_SYSV=0
 -D__EDG_ANSIC=1
 -D__EDG_CPP11_IL_EXTENSIONS_SUPPORTED=1
--DSTM8L15X_MD=1
--DRAM_EXECUTION=1
+-DSTM8L15X_MD_VL=1
 -D_DLIB_CONFIG_FILE_HEADER_NAME="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.0\stm8\LIB\dlstm8smn.h"
 -D_DLIB_CONFIG_FILE_STRING="C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.0\\stm8\\LIB\\dlstm8smn.h"
 -D__VERSION__="IAR C/C++ Compiler V3.10.1.201 for STM8"

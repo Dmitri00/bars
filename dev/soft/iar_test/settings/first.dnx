@@ -16,7 +16,7 @@
         <ShowSource>1</ShowSource>
     </Trace1>
     <DebugChecksum>
-        <Checksum>2072370516</Checksum>
+        <Checksum>3925015895</Checksum>
     </DebugChecksum>
     <CodeCoverage>
         <Enabled>_ 0</Enabled>
@@ -89,9 +89,9 @@
         <LogFile>_ ""</LogFile>
     </TermIOLog>
     <Breakpoints>
-        <Bp0>_ "STD_CODE" "{$PROJ_DIR$\main.c}.23.3" 1 0 0 0 "" 0 ""</Bp0>
+        <Bp0>_ "STD_CODE" "{$PROJ_DIR$\main.c}.0.1" 0 0 0 0 "" 0 ""</Bp0>
         <Bp1>_ "STD_CODE" "{$PROJ_DIR$\board_flash.c}.4.11" 0 0 0 0 "" 0 ""</Bp1>
-        <Bp2>_ "STD_CODE" "{$PROJ_DIR$\main.c}.21.9" 1 0 0 0 "" 0 ""</Bp2>
+        <Bp2>_ "STD_CODE" "{$PROJ_DIR$\main.c}.0.1" 0 0 0 0 "" 0 ""</Bp2>
         <Count>3</Count>
     </Breakpoints>
     <Aliases>
