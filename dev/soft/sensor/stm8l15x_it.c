@@ -80,6 +80,7 @@ uint16_t get_spi_response(uint8_t rw, uint8_t trials) {
 #ifdef DISCOVERY_BOARD
     return 0x1001;
 #endif
+    return 0x1003;
     SPIRequest_t request_struct;
     request_struct.rw = rw;
     request_struct.battery = (uint8_t)convertBattState(readBattADC());
@@ -179,8 +180,9 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler, 4)
   RTC_WakeUpCmd(DISABLE); 
   // Check whatever the time for message has come or not
   
-  if (mcu_state == OK && !(--halfhours_timer))
+  if (mcu_state == OK && (--halfhours_timer)!=0) {
       return; // wait more
+  }
   
     // Time for message has come
 
@@ -199,8 +201,8 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler, 4)
             raw_response = get_spi_response(1,3);            
             if (raw_response != 0) {
                 // Client sets publication interval in hours, so convert it to seconds
-                uint16_t interval = (uint16_t)INTERVAL_PACKET_INTERVAL(raw_response) * 2;
-                flash_write_int16((uint32_t)INTERVAL_ADDR,interval);
+                uint16_t interval = (uint16_t)(0x0fff&raw_response) * 2;
+                flash_write_int32((uint32_t)INTERVAL_ADDR,interval);
                 mcu_state = OK;
             }
             else {
@@ -240,7 +242,7 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler, 4)
     GPIO_WriteBit(ESP_CHEN_PORT,ESP_CHEN_PIN,RESET);
     
     //set up timer for new period
-    halfhours_timer = flash_read_int16((uint32_t)INTERVAL_ADDR);
+    halfhours_timer = flash_read_int32((uint32_t)INTERVAL_ADDR);
 
 }
 /**

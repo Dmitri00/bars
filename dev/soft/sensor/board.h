@@ -53,8 +53,8 @@ typedef struct IntervalPacket {
                         else (ready=0) new request after timeout is needed */
     interval : 12;  /*! value of publication interal in hours */
 } IntervalPacket_t;
-#define INTERVAL_PACKET_RD(x) x&0x1000          /*! mask for ready bit */
-#define INTERVAL_PACKET_INTERVAL(x) x&0x0fff    /*! mask for interval value */
+#define INTERVAL_PACKET_RD(x) (x&0x1000)          /*! mask for ready bit */
+#define INTERVAL_PACKET_INTERVAL(x) (x&0x0fff)    /*! mask for interval value */
 
 
 
