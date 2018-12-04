@@ -13,6 +13,7 @@
 
 //Initial state = Get interval from ESP
 MCUState_t mcu_state = CONFIG;
+extern uint32_t counters[2];
 void RTC_init();
 void GPIO_init();
 void SPI_init();
@@ -32,9 +33,17 @@ int main( void )
     /* Wait until Data EEPROM area unlocked flag is set*/
     while (FLASH_GetFlagStatus(FLASH_FLAG_DUL) == RESET)
     {}
-    flash_write_int32(INTERVAL_ADDR,(uint32_t)0);
-    flash_write_int32(COUNTER_ADDR(0), (uint32_t)0);
-    flash_write_int32(COUNTER_ADDR(1), (uint32_t)0);
+    //flash_write_int32(INTERVAL_ADDR,(uint32_t)0)
+//Initialize counters, load saved value from flash if it exists
+    uint8_t i;
+    for (i = 0; i < COUNTER_NUM; i++) {
+        uint32_t counter = flash_read_int32(COUNTER_ADDR(i));
+        if (counter)
+        counters[i] = counter;
+        flash_write_int32(COUNTER_ADDR(i),(uint32_t)0);
+    }
+    FLASH_Lock(FLASH_MemType_Data);
+    //flash_write_int32(COUNTER_ADDR(1), (uint32_t)0);
 
     enableInterrupts();
     while(1) {
@@ -42,7 +51,7 @@ int main( void )
       switch (mcu_state) {
         case OK:
             DEBUG(" main:ok ");        
-            if (RTC_GetWakeUpCounter() == 0) 
+            if (RTC_GetWakeUpCounter() != RTCWUT_30MINS) 
                 RTC_SetWakeUpCounter(RTCWUT_30MINS);
             RTC_WakeUpCmd(ENABLE); 
 

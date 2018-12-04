@@ -47,6 +47,8 @@ extern MCUState_t mcu_state;
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 uint16_t raw_response;
+uint8_t save_to_flash = 0;
+uint32_t counters[2] = {0};
 /* Variable for storing remaining 30minutes's intervals before next message to server 
    This variable stores spesifically 30 minutes's intervals because RTC Clock configured
 to the lowest frequency 32 Hz. 30 minutes both utilezes 16 bit timer (57 600 ticks)
@@ -78,11 +80,15 @@ BatteryState_t convertBattState(uint32_t voltage) {
     state = VERYLOW;
   return state;
 }
+/* this function sends to esp 2 byte of requests 
+ * in case of error esp sends to stm 0xffff,
+ * and this function returns 0x0000 in case it received 0xffff from esp
+ */
 uint16_t get_spi_response(uint8_t rw, uint8_t trials) {
 #ifdef DISCOVERY_BOARD
     return 0x1001;
 #endif
-    //return 0x1003;
+    return 0x1003;
     SPIRequest_t request_struct;
     request_struct.rw = rw;
     request_struct.battery = (uint8_t)convertBattState(readBattADC());
@@ -215,12 +221,12 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler, 4)
           DEBUG("OK");
             uint8_t i;    
             get_spi_response(0,1);
-            uint32_t counters[2] = {0};
+            uint32_t counters_cashed[2] = {counters[0],counters[1]};
             for (i = 0; i < COUNTER_NUM; i++) {
                 /* read 32-bit counter */ 
                 /* counter data structures defined at board.h via #defines */
-                counters[i] = flash_read_int32((uint32_t)COUNTER_ADDR(i));  
-                spi_send_int32(counters[i]);
+                //counters[i] = flash_read_int32((uint32_t)COUNTER_ADDR(i));  
+                spi_send_int32(counters_cashed[i]);
             }
             // make dalay to allow ESP to process and send data to server
             delay_ms(5000);
@@ -230,9 +236,8 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler, 4)
             if (raw_response != 0) {
                 if (INTERVAL_PACKET_RD(raw_response) != 0)
                     for (i = 0; i < COUNTER_NUM; i++) {
-                        uint32_t updated_counter = flash_read_int32((uint32_t)COUNTER_ADDR(i));
-                        updated_counter -= counters[i];
-                        flash_write_int32((uint32_t)COUNTER_ADDR(i), updated_counter);
+                        counters[i] -= counters_cashed[i];
+                        flash_write_int32((uint32_t)COUNTER_ADDR(i), 0);
                     }
             }
             //else do nothing - for now
@@ -363,17 +368,20 @@ INTERRUPT_HANDLER(EXTI6_IRQHandler, 14)
     FlagStatus it = (FlagStatus)(GPIO_ReadInputDataBit(COUNT0_GPIO_PORT,COUNT0_GPIO_PIN) > 0)  ;
     if (it == RESET) { 
         /* FLASH IO routine */
-        FLASH_Unlock(FLASH_MemType_Data);
+        
         /* Wait until Data EEPROM area unlocked flag is set*/
         while (FLASH_GetFlagStatus(FLASH_FLAG_DUL) == RESET)
         {}
         /* if counter0 is active (= first bit in flash[COUNTERS_STATE_ADDR] is set) */
         /* read 32 counter */
-        uint32_t counter = flash_read_int32((uint32_t)COUNTER_ADDR(0));
+        //uint32_t counter = flash_read_int32((uint32_t)COUNTER_ADDR(0));
         /* update counter */
-        counter++;
-        flash_write_int32((uint32_t)COUNTER_ADDR(0), counter);
-        FLASH_Lock(FLASH_MemType_Data);    
+        counters[0]++;
+        if (convertBattState(readBattADC()) <= LOW) {
+            FLASH_Unlock(FLASH_MemType_Data);
+            flash_write_int32((uint32_t)COUNTER_ADDR(0), counters[0]);
+            FLASH_Lock(FLASH_MemType_Data);    
+        }
     }
     EXTI_ClearITPendingBit(EXTI_IT_Pin6);
 
@@ -395,10 +403,14 @@ INTERRUPT_HANDLER(EXTI7_IRQHandler, 15)
         while (FLASH_GetFlagStatus(FLASH_FLAG_DUL) == RESET)
         {}
         /* if counter1 is active (= first bit in flash[COUNTERS_STATE_ADDR] is set) */
-        uint32_t counter = flash_read_int32((uint32_t)COUNTER_ADDR(1));
+        //uint32_t counter = flash_read_int32((uint32_t)COUNTER_ADDR(1));
         /* update counter */
-        counter++;
-        flash_write_int32((uint32_t)COUNTER_ADDR(1), counter);
+        counters[1]++;
+        if (convertBattState(readBattADC()) <= LOW){
+            FLASH_Unlock(FLASH_MemType_Data);
+            flash_write_int32((uint32_t)COUNTER_ADDR(1), counters[1]);
+            FLASH_Lock(FLASH_MemType_Data);    
+        }
         
     }
     EXTI_ClearITPendingBit(EXTI_IT_Pin7);
@@ -436,6 +448,7 @@ INTERRUPT_HANDLER(ADC1_COMP_IRQHandler, 18)
   /* In order to detect unexpected events during development,
      it is recommended to set a breakpoint on the following instruction.
   */
+  
 }
 
 /**

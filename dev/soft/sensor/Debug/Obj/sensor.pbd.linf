@@ -1,6 +1,7 @@
 ﻿C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\sensor.pbd
 C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\delay.pbi
-C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\main.pbi
+C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l_discovery_lcd.pbi
+C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\tools.pbi
 C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_adc.pbi
 C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_aes.pbi
 C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_beep.pbi
@@ -13,7 +14,6 @@ C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_flash.pbi
 C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_gpio.pbi
 C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_i2c.pbi
 C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_irtim.pbi
-C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_it.pbi
 C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_itc.pbi
 C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_iwdg.pbi
 C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_lcd.pbi
@@ -30,5 +30,5 @@ C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_tim5.pbi
 C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_usart.pbi
 C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_wfe.pbi
 C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_wwdg.pbi
-C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l_discovery_lcd.pbi
-C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\tools.pbi
+C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\main.pbi
+C:\Users\Vova\bars\dev\soft\sensor\Debug\Obj\stm8l15x_it.pbi
