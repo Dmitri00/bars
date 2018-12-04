@@ -142,7 +142,7 @@ void SPI_init() {
 void ADC_init() {
 #ifdef BARS_BOARD
     CLK_PeripheralClockConfig(CLK_Peripheral_ADC1, ENABLE);
-    ADC_Init(ADC1, ADC_ConversionMode_Continuous, ADC_Resolution_6Bit, ADC_Prescaler_2);
+    ADC_Init(ADC1, ADC_ConversionMode_Continuous, ADC_Resolution_12Bit, ADC_Prescaler_2);
 
     /* ADC channel used for IDD measurement */
     ADC_SamplingTimeConfig(ADC1, BATT_VOLTAGE_MEASUREMENT_CHANNEL, ADC_SamplingTime_384Cycles);

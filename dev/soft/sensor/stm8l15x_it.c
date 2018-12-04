@@ -68,19 +68,21 @@ void* my_memcpy(void* dest, const void* src, int count);
 
 BatteryState_t convertBattState(uint32_t voltage) {
   BatteryState_t state;
-  if ( voltage >= BATTERY_HIGH_ADC_LEVEL)
+  if ( voltage >= BATTERY_MAX_ADC_LEVEL)
     state = HIGH;
-  else if (voltage >= BATTERY_MID_ADC_LEVEL)
+  else if (voltage >= BATTERY_HIGH_ADC_LEVEL)
     state = MID;
-  else
+  else if (voltage >= BATTERY_MID_ADC_LEVEL)
     state = LOW;
+  else
+    state = VERYLOW;
   return state;
 }
 uint16_t get_spi_response(uint8_t rw, uint8_t trials) {
 #ifdef DISCOVERY_BOARD
     return 0x1001;
 #endif
-    return 0x1003;
+    //return 0x1003;
     SPIRequest_t request_struct;
     request_struct.rw = rw;
     request_struct.battery = (uint8_t)convertBattState(readBattADC());
@@ -97,7 +99,7 @@ uint16_t get_spi_response(uint8_t rw, uint8_t trials) {
         // exchange second byte
         // second spi_request byte is for filling
         response += spi_exchange(raw_request);
-        if (INTERVAL_PACKET_RD(response) != 0) {
+        if (response != 0xffff && INTERVAL_PACKET_RD(response) != 0) {
             success_flag = 1;
             break;
         }

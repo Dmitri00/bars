@@ -60,19 +60,21 @@ typedef struct IntervalPacket {
 
 
 /* ---------------- Defines for battery level measurement ----------------*/
-typedef enum BatteryState { LOW, MID, HIGH } BatteryState_t;
+typedef enum BatteryState { VERYLOW, LOW, MID, HIGH } BatteryState_t;
 //mcu states
 
 
 /*! defines for battery mesurement */
 #define BATTERY_MEASUREMENT_FREQUENCY_MINS  60
 #define BATTERY_MEASUREMENT_FREQUENCTY  BATTERY_MEASUREMENT_FREQUENCY_MINS*60
-#define ADC_CONVERT_RATIO_uV    806      /* (3300mV / 0xFFF) * 1000  => uV*/
+#define R17                     470     /* KOhm, Resistance of voltage devider */
+#define R18                     220     /* KOhm, Ground resistance of voltage devider*/
+#define REVERSE_DIVIDER_COEFF   3136    /* 1e-3, (R17+R18)*1000/R18 */
+#define ADC_CONVERT_RATIO_uV    2533      /* 1e-3, (3300mV / 0xfff)*REVERSE_DIVIDER_COEFF * 1000  => uV*/
 #define BATTERY_MAX_ADC_LEVEL   2860  /* mV */
 #define BATTERY_HIGH_ADC_LEVEL  2450  /* mV */
 #define BATTERY_MID_ADC_LEVEL   2050  /* mV */
 #define BATTERY_MIN_ADC_LEVEL   1650  /* mV */
-
 
 #define PUBLICATION_PERIOD_HOURS 100
 #define PUBLICATION_PERIOD PUBLICATION_PERIOD_HOURS*60*60
