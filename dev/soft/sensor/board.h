@@ -82,6 +82,7 @@ typedef enum BatteryState { VERYLOW, LOW, MID, HIGH } BatteryState_t;
 /* ---------------------- Counter's data structures -----------------------*/
 #define RTCWUT_FREQ 32 //Configured  at RTC_init() in main.c
 #define RTCWUT_30MINS RTCWUT_FREQ*30*60 /* 57600 ticks */
+#define RTCWUT_5SEC RTCWUT_FREQ
 #define COUNTER_NUM 2
 
 #define INTERVAL_ADDR   0x001000
