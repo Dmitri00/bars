@@ -32,13 +32,15 @@ void spi_send_int32(uint32_t data) {
     CLK_PeripheralClockConfig(CLK_Peripheral_SPI1,DISABLE);
 }
 uint32_t readBattADC() {
+  #ifdef DISCOVERY_BOARD
+    return BATTERY_MAX_ADC_LEVEL + 1;
+#endif
 #ifdef BARS_BOARD
-    CLK_PeripheralClockConfig(CLK_Peripheral_ADC1, ENABLE);
+    
     /* Enable ADC1 */
     ADC_Cmd(ADC1, ENABLE);
     /* Enable ADC1 Channel used for IDD measurement */
-    ADC_ChannelCmd(ADC1, ADC_IDD_MEASUREMENT_CHANNEL, ENABLE);
-
+    ADC_ChannelCmd(ADC1, BATT_VOLTAGE_MEASUREMENT_CHANNEL, ENABLE);    
     ADC_SoftwareStartConv(ADC1);
     /* Wait until End-Of-Convertion */
     while (ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == 0)
@@ -47,14 +49,13 @@ uint32_t readBattADC() {
     /* Get conversion value in uV */
     uint32_t ADCData = (uint32_t)((uint32_t)ADC_GetConversionValue(ADC1) *(uint32_t)ADC_CONVERT_RATIO_uV) ;
     /* Convert uV to mV */
-    ADCData = ADCData / (uint32_t)1000;
+    ADCData = ADCData / 1000;
     ADC_Cmd(ADC1, DISABLE);
     CLK_PeripheralClockConfig(CLK_Peripheral_ADC1, DISABLE);
+    
     return ADCData;
 #endif
-#ifdef DISCOVERY_BOARD
-    return BATTERY_MAX_ADC_LEVEL + 1;
-#endif
+
 }
 uint32_t flash_read_int32(uint32_t addr) {
     int8_t i;

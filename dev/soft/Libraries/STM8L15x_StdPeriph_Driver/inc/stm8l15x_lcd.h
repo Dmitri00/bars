@@ -35,7 +35,7 @@
 #include "stm8l15x_lcd.h"
 #include "stm8l15x_gpio.h"
 #include "stm8l15x_clk.h"
-#include "board_pins.h"
+
 
 /** @addtogroup STM8L15x_StdPeriph_Driver
   * @{
