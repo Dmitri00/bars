@@ -1,1 +1,0 @@
-/usr/bin/cc  -Wall -g   CMakeFiles/bars_esp_mqtt.dir/user/user_main.c.o  -o bars_esp_mqtt 
