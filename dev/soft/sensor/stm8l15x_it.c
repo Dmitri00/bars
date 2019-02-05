@@ -88,7 +88,7 @@ uint16_t get_spi_response(uint8_t rw, uint8_t trials) {
 #ifdef DISCOVERY_BOARD
     return 0x1001;
 #endif
-    return 0x1003;
+    
     SPIRequest_t request_struct;
     request_struct.rw = rw;
     request_struct.battery = (uint8_t)convertBattState(readBattADC());
@@ -206,16 +206,21 @@ INTERRUPT_HANDLER(RTC_CSSLSE_IRQHandler, 4)
 
     switch(mcu_state) {
         case CONFIG:
-            raw_response = get_spi_response(1,3);            
-            if (raw_response != 0) {
+            //raw_response = get_spi_response(1,3); 
+            uint16_t interval = 3;
+            flash_write_int32((uint32_t)INTERVAL_ADDR,interval);
+            /*if (raw_response != 0) {
                 // Client sets publication interval in hours, so convert it to seconds
-                uint16_t interval = (uint16_t)(0x0fff&raw_response) * 2;
-                flash_write_int32((uint32_t)INTERVAL_ADDR,interval);
+              
+                //uint16_t interval = (uint16_t)(0x0fff&raw_response) * 2;
+                if (!interval)
+                  interval = 3;
+                
                 mcu_state = OK;
             }
             else {
                 mcu_state = ERROR_STATE;
-            }
+            }*/
             break;
         case OK:
           DEBUG("OK");

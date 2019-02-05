@@ -40,8 +40,8 @@ bool lcdTest(void) {
   return 1;
 }
 bool btnTest_wait() {
-  GPIO_Init(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_Mode_Out_PP_Low_Fast);
-  GPIO_Init(LED_BLUE_PORT, LED_BLUE_PIN, GPIO_Mode_Out_PP_Low_Fast);
+ // GPIO_Init(LED_GREEN_PORT, LED_GREEN_PIN, GPIO_Mode_Out_PP_Low_Fast);
+ // GPIO_Init(LED_BLUE_PORT, LED_BLUE_PIN, GPIO_Mode_Out_PP_Low_Fast);
   LCD_GLASS_ScrollSentenceDef("**Press button**");
   return 1;
 }  
@@ -50,16 +50,16 @@ bool btnTest() {
   LCD_GLASS_Clear();
   delay_ms(500);
   
-  GPIO_WriteBit(LED_BLUE_PORT,LED_BLUE_PIN,SET);
-  GPIO_WriteBit(LED_GREEN_PORT,LED_GREEN_PIN,SET);
+ // GPIO_WriteBit(LED_BLUE_PORT,LED_BLUE_PIN,SET);
+  //GPIO_WriteBit(LED_GREEN_PORT,LED_GREEN_PIN,SET);
 
   
   LCD_GLASS_ScrollSentenceDef("**LED is on**");
   LCD_GLASS_Clear();
   delay_ms(500);
   
-  GPIO_WriteBit(LED_BLUE_PORT,LED_BLUE_PIN,RESET);
-  GPIO_WriteBit(LED_GREEN_PORT,LED_GREEN_PIN,RESET);
+  //GPIO_WriteBit(LED_BLUE_PORT,LED_BLUE_PIN,RESET);
+  //GPIO_WriteBit(LED_GREEN_PORT,LED_GREEN_PIN,RESET);
   LCD_GLASS_ScrollSentenceDef("**LED is off**");
   LCD_GLASS_Clear();
   delay_ms(500);

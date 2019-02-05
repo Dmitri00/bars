@@ -51,8 +51,8 @@ int main( void )
       switch (mcu_state) {
         case OK:
             DEBUG(" main:ok ");        
-            if (RTC_GetWakeUpCounter() != RTCWUT_30MINS) 
-                RTC_SetWakeUpCounter(RTCWUT_30MINS);
+            if (RTC_GetWakeUpCounter() != RTCWUT_5SEC) 
+                RTC_SetWakeUpCounter(RTCWUT_5SEC);
             RTC_WakeUpCmd(ENABLE); 
 
             halt();

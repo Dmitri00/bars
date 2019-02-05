@@ -11,7 +11,7 @@
 #define COUNT0_GPIO_PIN                 GPIO_Pin_6
 
 #define COUNT1_GPIO_PORT                GPIOD
-#define COUNT1_GPIO_PIN                 GPIO_Pin_6
+#define COUNT1_GPIO_PIN                 GPIO_Pin_7
 
 /* LEDs */
 #define LED1_GPIO_PORT                  GPIOA
@@ -43,3 +43,6 @@
 /* Battery voltage measurement */
 #define BATT_VOLTAGE_MEASUREMENT_CHANNEL ADC_Channel_0
 
+// Stubs for UART. USART is not configured on Bars board
+#define USART_TX_PORT 0
+#define USART_TX_PIN 0
