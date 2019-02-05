@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="794f926b-1239-41b8-b680-52f0938ca3f0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/.idea/bars_esp_mqtt.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/driver/spi.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/driver/spi_interface.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/driver/spi_overlap.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/driver/uart.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/include/driver/spi.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/include/driver/spi_interface.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/include/driver/spi_overlap.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/include/driver/spi_register.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/include/driver/uart.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/include/driver/uart_register.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/include/user_config.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/include/wifi.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/modules/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/modules/include/wifi.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/modules/wifi.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/include/debug.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/include/mqtt.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/include/mqtt_msg.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/include/proto.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/include/queue.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/include/ringbuf.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/include/typedef.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/include/utils.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/mqtt.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/mqtt_msg.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/proto.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/queue.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/ringbuf.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/mqtt/utils.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_esp_mqtt/user/user_main.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_upython/esp8266-20190125-v1.10.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../barsMQTT/bars_upython/interpreter/esp8266-20190125-v1.10.bin" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="1141382447">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.6" value="1" />
+          <entry key="project.opened" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="ipynb" value="1" />
+          <entry key="py" value="6" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="IPNB" value="1" />
+          <entry key="Python" value="6" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="py" value="1934" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Python" value="1934" />
+        </counts>
+      </usages-collector>
+    </session>
+    <session id="-985814724">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.6" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/boot.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="319">
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
+              <folding>
+                <element signature="e#179#188#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bars_mqtt.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1218">
+              <caret line="43" column="43" selection-start-line="43" selection-start-column="43" selection-end-line="43" selection-end-column="43" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+                <marker date="1549313844502" expanded="true" signature="56:59" ph="..." />
+                <marker date="1549313844502" expanded="true" signature="77:82" ph="..." />
+                <marker date="1549313844502" expanded="true" signature="111:120" ph="..." />
+                <marker date="1549313844502" expanded="true" signature="273:583" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/bars_hspi_master.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="290">
+              <caret line="10" column="24" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Jupyter Notebook" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/boot.py" />
+        <option value="$PROJECT_DIR$/bars_mqtt.ipynb" />
+        <option value="$PROJECT_DIR$/bars_mqtt.py" />
+        <option value="$PROJECT_DIR$/bars_hspi_slave.py" />
+        <option value="$PROJECT_DIR$/bars_hspi_master.py" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="580" />
+    <option name="y" value="231" />
+    <option name="width" value="1400" />
+    <option name="height" value="1000" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="code" type="b2602c69:ProjectViewProjectNode" />
+              <item name="code" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="794f926b-1239-41b8-b680-52f0938ca3f0" name="Default Changelist" comment="" />
+      <created>1549110174420</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1549110174420</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="35" width="2560" height="1405" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2588997" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3298153" />
+      <window_info anchor="bottom" id="Python Console" order="12" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" id="R Graphics" order="4" />
+      <window_info anchor="right" id="R Packages" order="5" />
+      <window_info anchor="right" id="Database" order="6" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/../../../../.." />
+    </ignored-roots>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/simple.py" />
+    <entry file="file://$PROJECT_DIR$/bars_mqtt.ipynb" />
+    <entry file="file://$PROJECT_DIR$/bars_hspi_slave.py" />
+    <entry file="file://$PROJECT_DIR$/boot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="e#179#188#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bars_mqtt.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1218">
+          <caret line="43" column="43" selection-start-line="43" selection-start-column="43" selection-end-line="43" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <marker date="1549313844502" expanded="true" signature="56:59" ph="..." />
+            <marker date="1549313844502" expanded="true" signature="77:82" ph="..." />
+            <marker date="1549313844502" expanded="true" signature="111:120" ph="..." />
+            <marker date="1549313844502" expanded="true" signature="273:583" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bars_hspi_master.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="10" column="24" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
