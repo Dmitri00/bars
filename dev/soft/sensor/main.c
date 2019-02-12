@@ -12,7 +12,7 @@
  */
 
 //Initial state = Get interval from ESP
-MCUState_t mcu_state = CONFIG;
+MCUState_t mcu_state = OK;
 extern uint32_t counters[2];
 void RTC_init();
 void GPIO_init();
@@ -50,13 +50,15 @@ int main( void )
         /* Enter Halt mode*/
       switch (mcu_state) {
         case OK:
-            DEBUG(" main:ok ");        
-            if (RTC_GetWakeUpCounter() != RTCWUT_5SEC) 
-                RTC_SetWakeUpCounter(RTCWUT_5SEC);
-            RTC_WakeUpCmd(ENABLE); 
+            //DEBUG(" main:ok ");        
+            //if (RTC_GetWakeUpCounter() != RTCWUT_5SEC) 
+            //    RTC_SetWakeUpCounter(RTCWUT_5SEC);
+            //RTC_WakeUpCmd(ENABLE); 
 
             halt();
-            
+            spi_send_int32(counters[0]);
+            spi_send_int32(counters[1]);
+            SPI_SendData(SPI1,0xff);
             break;
         case CONFIG:
           DEBUG(" main:config ");
@@ -141,11 +143,17 @@ void SPI_init() {
     GPIO_Init(GPIOB, GPIO_Pin_5, GPIO_Mode_Out_PP_High_Fast);  
     GPIO_Init(GPIOB, GPIO_Pin_6, GPIO_Mode_Out_PP_High_Fast);  
     GPIO_Init(GPIOB, GPIO_Pin_7, GPIO_Mode_In_PU_No_IT);   
-    GPIO_Init(GPIOB , GPIO_Pin_4, GPIO_Mode_Out_PP_High_Fast);  
+    //GPIO_Init(GPIOB , GPIO_Pin_4, GPIO_Mode_Out_PP_High_Fast);  
+    GPIO_Init(SPI_PORT,SPI_NSS_PIN, GPIO_Mode_In_FL_IT);
     
-    SPI_Init(SPI1, SPI_FirstBit_MSB, SPI_BaudRatePrescaler_2, SPI_Mode_Master,  
+    /*SPI_Init(SPI1, SPI_FirstBit_MSB, SPI_BaudRatePrescaler_2, SPI_Mode_Master,  
         SPI_CPOL_Low, SPI_CPHA_1Edge,   
         SPI_Direction_2Lines_FullDuplex, SPI_NSS_Soft, 0x07);
+*/
+     SPI_Init(SPI1, SPI_FirstBit_MSB, SPI_BaudRatePrescaler_2, SPI_Mode_Slave,  
+        SPI_CPOL_Low, SPI_CPHA_1Edge,   
+        SPI_Direction_2Lines_FullDuplex, SPI_NSS_Soft, 0x07);
+
 
 }
 void ADC_init() {

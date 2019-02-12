@@ -547,6 +547,12 @@ INTERRUPT_HANDLER(SPI1_IRQHandler, 26)
   /* In order to detect unexpected events during development,
      it is recommended to set a breakpoint on the following instruction.
   */
+  delay_ms(100);
+  FlagStatus it = (FlagStatus)(SPI_GetITStatus(SPI1,SPI_IT_WKUP ) > 0);
+  if (it == SET) {
+    SPI_SendData(SPI1,(uint8_t)convertBattState(readBattADC()););
+    SPI_ClearFlag(SPI1,SPI_IT_WKUP );
+  }
 }
 
 /**
